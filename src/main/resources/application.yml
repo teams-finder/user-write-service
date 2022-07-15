@@ -5,7 +5,7 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
