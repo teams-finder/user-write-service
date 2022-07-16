@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+    <changeSet id="create-project-structure" author="MrRevo">
+
+        <createTable tableName="user">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_user_id"/>
+            </column>
+            <column name="key_cloak_id" type="uuid" >
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="account_type" type="varchar" >
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="github_profile_url" type="varchar" />
+            <column name="profile_picture_url" type="varchar" />
+        </createTable>
+
+        <createTable tableName="tag">
+            <column name="id" type="bigint" autoIncrement="true">
+                <constraints primaryKey="true" primaryKeyName="pk_tag_id"/>
+            </column>
+            <column name="name" type="varchar" />
+        </createTable>
+
+        <createTable tableName="user_tags">
+            <column name="user_id" type="bigint"/>
+            <column name="tag_id" type="bigint"/>
+        </createTable>
+
+        <createIndex tableName="user_tags" indexName="user_tags_index">
+            <column name="user_id"/>
+            <column name="tag_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="user_id" constraintName="fk_user_tags_user_id" referencedTableName="user"
+                                 referencedColumnNames="id" onUpdate="RESTRICT" onDelete="RESTRICT"/>
+
+        <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="tag_id" constraintName="fk_user_tags_tag_id" referencedTableName="tag"
+                                 referencedColumnNames="id" onUpdate="RESTRICT" onDelete="RESTRICT"/>
+
+    </changeSet>
+</databaseChangeLog>
