@@ -1,6 +1,6 @@
 package com.teamsfinder.userwriteservice.user.model;
 
-enum Role {
+enum AccountType {
     USER,
     MENTOR,
     JURY,

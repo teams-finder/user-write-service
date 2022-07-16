@@ -22,7 +22,7 @@ class User {
     private Long id;
     private UUID keyCloakId;
     @Enumerated(EnumType.STRING)
-    private Role account_type;
+    private AccountType account_type;
     private String githubProfileUrl;
     private String profilePictureUrl;
     @ManyToMany
