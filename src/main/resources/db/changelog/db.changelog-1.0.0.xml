@@ -10,7 +10,7 @@
                 <constraints primaryKey="true" primaryKeyName="user_id_pk"/>
             </column>
             <column name="key_cloak_id" type="uuid" />
-            <column name="role" type="varchar" />
+            <column name="account_type" type="varchar" />
             <column name="github_profile_url" type="varchar" />
             <column name="profile_picture_url" type="varchar" />
         </createTable>
