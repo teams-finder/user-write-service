@@ -28,6 +28,11 @@
             <column name="tag_id" type="bigint"/>
         </createTable>
 
+        <createIndex tableName="user_tags" indexName="user_tags_index">
+            <column name="user_id"/>
+            <column name="tag_id"/>
+        </createIndex>
+
         <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="user_id" constraintName="fk_user_id" referencedTableName="user"
                                  referencedColumnNames="id"/>
 
