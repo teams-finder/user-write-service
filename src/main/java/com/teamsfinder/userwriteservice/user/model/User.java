@@ -14,7 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import java.util.List;
+ import javax.validation.constraints.NotNull;
+ import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -25,7 +26,9 @@ class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotNull
     private UUID keyCloakId;
+    @NotNull
     @Enumerated(EnumType.STRING)
     private AccountType accountType;
     private String githubProfileUrl;
