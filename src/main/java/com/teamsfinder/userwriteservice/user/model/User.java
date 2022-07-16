@@ -1,6 +1,6 @@
 package com.teamsfinder.userwriteservice.user.model;
 
- import lombok.Data;
+ import com.teamsfinder.userwriteservice.tag.model.Tag;
  import lombok.Getter;
  import lombok.NoArgsConstructor;
  import lombok.Setter;

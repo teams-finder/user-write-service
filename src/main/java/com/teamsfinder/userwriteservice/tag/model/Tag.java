@@ -1,4 +1,4 @@
-package com.teamsfinder.userwriteservice.user.model;
+package com.teamsfinder.userwriteservice.tag.model;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-class Tag {
+public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
