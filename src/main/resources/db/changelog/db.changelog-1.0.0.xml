@@ -34,10 +34,10 @@
         </createIndex>
 
         <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="user_id" constraintName="fk_user_id" referencedTableName="user"
-                                 referencedColumnNames="id" onUpdate="RESTRICT" onDelete="RESTRICT"/>
+                                 referencedColumnNames="id" onUpdate="RESTRICT"/>
 
         <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="tag_id" constraintName="fk_tag_id" referencedTableName="tag"
-                                 referencedColumnNames="id" onUpdate="RESTRICT" onDelete="RESTRICT"/>
+                                 referencedColumnNames="id" onUpdate="RESTRICT"/>
 
     </changeSet>
 </databaseChangeLog>
