@@ -5,6 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
     <changeSet id="create-project-structure" author="MrRevo">
+
         <createTable tableName="user">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="user_id_pk"/>
@@ -14,19 +15,24 @@
             <column name="github_profile_url" type="varchar" />
             <column name="profile_picture_url" type="varchar" />
         </createTable>
+
         <createTable tableName="tag">
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="tag_id_pk"/>
             </column>
             <column name="name" type="varchar" />
         </createTable>
+
         <createTable tableName="user_tags">
             <column name="user_id" type="bigint"/>
             <column name="tag_id" type="bigint"/>
         </createTable>
+
         <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="user_id" constraintName="user_id_fk" referencedTableName="user"
                                  referencedColumnNames="id"/>
+
         <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="tag_id" constraintName="tag_id_fk" referencedTableName="tag"
                                  referencedColumnNames="id"/>
+        
     </changeSet>
 </databaseChangeLog>
