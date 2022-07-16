@@ -8,7 +8,7 @@
 
         <createTable tableName="user">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="user_id_pk"/>
+                <constraints primaryKey="true" primaryKeyName="pk_user_id"/>
             </column>
             <column name="key_cloak_id" type="uuid" />
             <column name="account_type" type="varchar" />
@@ -18,7 +18,7 @@
 
         <createTable tableName="tag">
             <column name="id" type="bigint" autoIncrement="true">
-                <constraints primaryKey="true" primaryKeyName="tag_id_pk"/>
+                <constraints primaryKey="true" primaryKeyName="pk_tag_id"/>
             </column>
             <column name="name" type="varchar" />
         </createTable>
@@ -28,11 +28,11 @@
             <column name="tag_id" type="bigint"/>
         </createTable>
 
-        <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="user_id" constraintName="user_id_fk" referencedTableName="user"
+        <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="user_id" constraintName="fk_user_id" referencedTableName="user"
                                  referencedColumnNames="id"/>
 
-        <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="tag_id" constraintName="tag_id_fk" referencedTableName="tag"
+        <addForeignKeyConstraint baseTableName="user_tags" baseColumnNames="tag_id" constraintName="fk_tag_id" referencedTableName="tag"
                                  referencedColumnNames="id"/>
-        
+
     </changeSet>
 </databaseChangeLog>
