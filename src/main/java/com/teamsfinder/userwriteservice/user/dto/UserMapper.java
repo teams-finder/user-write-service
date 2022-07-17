@@ -1,10 +1,11 @@
 package com.teamsfinder.userwriteservice.user.dto;
 
-import com.teamsfinder.userreadservice.tag.dto.TagDto;
-import com.teamsfinder.userreadservice.tag.dto.TagMapper;
-import com.teamsfinder.userreadservice.tag.model.Tag;
-import com.teamsfinder.userreadservice.user.model.AccountType;
-import com.teamsfinder.userreadservice.user.model.User;
+
+import com.teamsfinder.userwriteservice.tag.dto.TagDto;
+import com.teamsfinder.userwriteservice.tag.dto.TagMapper;
+import com.teamsfinder.userwriteservice.tag.model.Tag;
+import com.teamsfinder.userwriteservice.user.model.AccountType;
+import com.teamsfinder.userwriteservice.user.model.User;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
