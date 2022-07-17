@@ -21,7 +21,7 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-class User {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
