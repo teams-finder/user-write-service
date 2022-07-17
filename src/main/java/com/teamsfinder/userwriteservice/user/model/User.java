@@ -1,6 +1,8 @@
 package com.teamsfinder.userwriteservice.user.model;
 
  import com.teamsfinder.userwriteservice.tag.model.Tag;
+ import lombok.AllArgsConstructor;
+ import lombok.Builder;
  import lombok.Getter;
  import lombok.NoArgsConstructor;
  import lombok.Setter;
@@ -21,6 +23,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +34,8 @@ public class User {
     private UUID keyCloakId;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private AccountType accountType;
+    @Builder.Default
+    private AccountType accountType = AccountType.USER;
     private String githubProfileUrl;
     private String profilePictureUrl;
     @ManyToMany
