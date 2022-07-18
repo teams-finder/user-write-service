@@ -20,11 +20,6 @@ import java.security.Principal;
 class UserController {
     private final UserService userService;
 
-    @PutMapping
-    ResponseEntity<UserDto> getOrCreateUser(Principal principal){
-        return ResponseEntity.ok(userService.getUserOrCreate(principal));
-    }
-
     @PatchMapping
     ResponseEntity<UserDto> editUser(@RequestBody EditUserDto editUserDto){
         return ResponseEntity.ok(userService.editUser(editUserDto));

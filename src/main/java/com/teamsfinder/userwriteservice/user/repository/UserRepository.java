@@ -5,7 +5,4 @@ import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
 
-public interface UserRepository extends CrudRepository<User, Long> {
-    boolean existsByKeyCloakId(UUID keyCloakId);
-    User findByKeyCloakId(UUID fromString);
-}
+public interface UserRepository extends CrudRepository<User, Long> { }

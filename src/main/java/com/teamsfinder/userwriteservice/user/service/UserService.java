@@ -6,7 +6,7 @@ import com.teamsfinder.userwriteservice.user.dto.UserDto;
 import java.security.Principal;
 
 public interface UserService {
-    UserDto getUserOrCreate(Principal principal);
+    UserDto createUser(Principal principal);
     UserDto editUser(EditUserDto editUserDto);
     UserDto blockUser(Long id);
 }
