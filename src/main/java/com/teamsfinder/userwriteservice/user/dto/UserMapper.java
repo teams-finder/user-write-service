@@ -14,7 +14,7 @@ import java.util.List;
 public class UserMapper {
     public static UserDto mapToDto(User user){
         AccountType accountType = user.getAccountType();
-        return new UserDto(user.getId(), user.getKeyCloakId(), accountType.toString(), user.getGithubProfileUrl(), user.getProfilePictureUrl(), mapTagsToDto(user.getTags()));
+        return new UserDto(user.getId(), user.getKeyCloakId(), accountType.toString(), user.getGithubProfileUrl(), user.getProfilePictureUrl(), user.isBlocked(), mapTagsToDto(user.getTags()));
     }
 
     private static List<TagDto> mapTagsToDto(List<Tag> tags) {

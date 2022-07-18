@@ -21,7 +21,7 @@ class UserServiceImp implements UserService{
     public UserDto getUserOrCreate(Principal principal) {
         String keyCloakId = principal.getName();
         if(existsByKeyCloakId(keyCloakId)){
-            User user = getUser(keyCloakId);
+            User user = getUserByKeyCloakId(keyCloakId);
             return mapUserToDto(user);
         }
         User user = buildUser(principal);
@@ -43,7 +43,7 @@ class UserServiceImp implements UserService{
         return UserMapper.mapToDto(user);
     }
 
-    private User getUser(String keyCloakId) {
+    private User getUserByKeyCloakId(String keyCloakId) {
         return userRepository.findByKeyCloakId(UUID.fromString(keyCloakId));
     }
 
@@ -60,6 +60,18 @@ class UserServiceImp implements UserService{
         User user = mapFromEditDto(editUserDto);
         User savedUser = save(user);
         return mapUserToDto(savedUser);
+    }
+
+    @Override
+    public UserDto blockUser(Long id) {
+        User user = getUserById(id);
+        user.setBlocked(true);
+        return mapUserToDto(user);
+    }
+
+    private User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private boolean existsById(Long id) {

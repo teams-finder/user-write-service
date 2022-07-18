@@ -8,4 +8,5 @@ import java.security.Principal;
 public interface UserService {
     UserDto getUserOrCreate(Principal principal);
     UserDto editUser(EditUserDto editUserDto);
+    UserDto blockUser(Long id);
 }

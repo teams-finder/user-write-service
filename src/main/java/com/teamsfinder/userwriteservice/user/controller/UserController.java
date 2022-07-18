@@ -6,6 +6,7 @@ import com.teamsfinder.userwriteservice.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,5 +28,10 @@ class UserController {
     @PatchMapping
     ResponseEntity<UserDto> editUser(@RequestBody EditUserDto editUserDto){
         return ResponseEntity.ok(userService.editUser(editUserDto));
+    }
+
+    @PatchMapping("/{id}/block")
+    ResponseEntity<UserDto> blockUser(@PathVariable("id") Long id){
+        return ResponseEntity.ok(userService.blockUser(id));
     }
 }
