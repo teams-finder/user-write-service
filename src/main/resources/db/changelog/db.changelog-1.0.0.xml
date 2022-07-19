@@ -10,6 +10,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" primaryKeyName="pk_user_id"/>
             </column>
+            <column name="blocked" type="boolean"/>
             <column name="key_cloak_id" type="uuid" >
                 <constraints nullable="false"></constraints>
             </column>
