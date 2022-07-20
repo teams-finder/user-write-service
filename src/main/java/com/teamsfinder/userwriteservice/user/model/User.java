@@ -16,6 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+ import javax.persistence.Table;
  import javax.validation.constraints.NotNull;
  import java.util.List;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "user_profile")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

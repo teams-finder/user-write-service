@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Component
 class KeycloakListener {
 
-//    @RabbitListener(queues = "KK.EVENT.#")
+//    @RabbitListener(queues = "amq.topic")
 //    public void handleUserCreateAccount(String s){
 //        System.out.println(s);
 //    }
