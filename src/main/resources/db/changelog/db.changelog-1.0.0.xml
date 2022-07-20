@@ -11,7 +11,7 @@
                 <constraints primaryKey="true" primaryKeyName="pk_user_id"/>
             </column>
             <column name="blocked" type="boolean"/>
-            <column name="key_cloak_id" type="uuid" >
+            <column name="key_cloak_id" type="varchar" >
                 <constraints nullable="false"></constraints>
             </column>
             <column name="account_type" type="varchar" >

@@ -18,8 +18,8 @@ class UserServiceImp implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public UserDto createUser(Principal principal) {
-        User user = buildUser(principal);
+    public UserDto createUser(String keyCloakId) {
+        User user = buildUser(keyCloakId);
         User savedUser = save(user);
         return mapUserToDto(savedUser);
     }
@@ -28,9 +28,9 @@ class UserServiceImp implements UserService{
         return userRepository.save(user);
     }
 
-    private User buildUser(Principal principal) {
+    private User buildUser(String keyCloakId) {
         return User.builder()
-                .keyCloakId(UUID.fromString(principal.getName()))
+                .keyCloakId(keyCloakId)
                 .build();
     }
 
