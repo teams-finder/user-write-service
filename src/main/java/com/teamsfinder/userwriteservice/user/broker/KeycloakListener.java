@@ -7,6 +7,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.teamsfinder.userwriteservice.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.annotation.Exchange;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.QueueBinding;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +17,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 class KeycloakListener {
     private static final String USER_ID_PATH = "userId";
+    private static final String QUOTE = "\"";
+    private static final String EMPTY_STRING = "";
+    
     private final UserService userService;
 
-    @RabbitListener(queues = "KK.EVENT.CLIENT.TeamsFinder.SUCCESS.teamsfinder.REGISTER")
+    @RabbitListener(queues = "keycloak.queue")
     public void handleUserCreateAccount(String data) throws JsonProcessingException {
         ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
-        JsonNode userIdField = node.get(USER_ID_PATH);
-        userService.createUser(userIdField.toString());
+        JsonNode keyCloakIdField = node.get(USER_ID_PATH);
+        String keyCloakIdString = keyCloakIdField.toString();
+        String replacedQuoteKeyCloakId = keyCloakIdString.replaceAll(QUOTE, EMPTY_STRING);
+        userService.createUser(replacedQuoteKeyCloakId);
     }
 }
