@@ -9,6 +9,7 @@ import com.teamsfinder.userwriteservice.user.model.User;
 import lombok.experimental.UtilityClass;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @UtilityClass
 public class UserMapper {
@@ -23,18 +24,9 @@ public class UserMapper {
                 .toList();
     }
 
-    public static User mapFromEditDto(EditUserDto editUserDto){
-        return User.builder()
-                .id(editUserDto.id())
-                .githubProfileUrl(editUserDto.githubProfileUrl())
-                .profilePictureUrl(editUserDto.profilePictureUrl())
-                .tags(mapTagsFromEditDto(editUserDto.tags()))
-                .build();
-    }
-
-    private static List<Tag> mapTagsFromEditDto(List<TagDto> tags) {
+    public static List<Tag> mapTagsFromDto(List<TagDto> tags) {
         return tags.stream()
                 .map(TagMapper::mapFromDto)
-                .toList();
+                .collect(Collectors.toList());
     }
 }

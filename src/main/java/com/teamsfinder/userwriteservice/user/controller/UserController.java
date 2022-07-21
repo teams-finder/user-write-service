@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 @RestController
@@ -21,7 +22,7 @@ class UserController {
     private final UserService userService;
 
     @PatchMapping
-    ResponseEntity<UserDto> editUser(@RequestBody EditUserDto editUserDto){
+    ResponseEntity<UserDto> editUser(@Valid @RequestBody EditUserDto editUserDto){
         return ResponseEntity.ok(userService.editUser(editUserDto));
     }
 

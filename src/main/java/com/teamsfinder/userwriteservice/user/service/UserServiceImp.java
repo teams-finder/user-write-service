@@ -3,11 +3,11 @@ package com.teamsfinder.userwriteservice.user.service;
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserMapper;
+import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -55,17 +55,29 @@ class UserServiceImp implements UserService{
         if(!existsById(id)){
             throw new UserNotFoundException(id);
         }
-        User user = mapFromEditDto(editUserDto);
+        User user = getUserById(id);
+        updateByEditDto(user, editUserDto);
         User savedUser = save(user);
         return mapUserToDto(savedUser);
+    }
+
+    private void updateByEditDto(User user, EditUserDto editUserDto) {
+        user.setGithubProfileUrl(editUserDto.githubProfileUrl());
+        user.setProfilePictureUrl(editUserDto.profilePictureUrl());
+        user.setTags(UserMapper.mapTagsFromDto(editUserDto.tags()));
     }
 
     @Override
     public UserDto blockUser(Long id) {
         User user = getUserById(id);
         user.setBlocked(true);
-        blockInKeyCloak(user.getKeyCloakId());
-        return mapUserToDto(user);
+        try{
+            blockInKeyCloak(user.getKeyCloakId());
+        } catch (Exception exception){
+            throw new KeyCloakException();
+        }
+        User savedUser = save(user);
+        return mapUserToDto(savedUser);
     }
 
     private void blockInKeyCloak(String keyCloakId) {
@@ -95,9 +107,5 @@ class UserServiceImp implements UserService{
 
     private boolean existsById(Long id) {
         return userRepository.existsById(id);
-    }
-
-    private User mapFromEditDto(EditUserDto editUserDto) {
-        return UserMapper.mapFromEditDto(editUserDto);
     }
 }

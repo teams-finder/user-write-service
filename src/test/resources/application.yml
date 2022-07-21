@@ -3,7 +3,4 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.xml
   jpa:
     hibernate:
-      ddl-auto: create-drop
-  sql:
-    init:
-      mode: always
+      ddl-auto: validate
