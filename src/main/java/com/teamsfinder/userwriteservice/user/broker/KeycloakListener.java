@@ -19,7 +19,7 @@ class KeycloakListener {
     private static final String USER_ID_PATH = "userId";
     private static final String QUOTE = "\"";
     private static final String EMPTY_STRING = "";
-    
+
     private final UserService userService;
 
     @RabbitListener(queues = "keycloak.queue")
