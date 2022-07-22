@@ -6,6 +6,7 @@ import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
+import liquibase.pro.packaged.M;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,6 +36,17 @@ class UserServiceImpTest {
             .id(1L)
             .keyCloakId(USER_KEYCLOAK_ID)
             .build();
+
+    @Test
+    void shouldCreateUser() {
+        //given
+        //when
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        //then
+        UserDto userDto = userService.createUser(USER_KEYCLOAK_ID);
+        assertThat(userDto.id()).isEqualTo(1L);
+        assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
+    }
 
     @Test
     void shouldEditUser() {
