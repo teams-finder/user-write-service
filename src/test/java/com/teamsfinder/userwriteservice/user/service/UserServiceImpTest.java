@@ -4,6 +4,7 @@ import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserDto;
 import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
+import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import liquibase.pro.packaged.M;
@@ -25,6 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserServiceImpTest {
     private static final String USER_KEYCLOAK_ID = "KEYCLOAKID";
     private static final String EDIT_STRING = "EDITED";
+    private static final String USER_GITHUB = "GITHUB";
+    private static final String USER_PICTURE = "PICTURE";
 
     @Mock
     private UserRepository userRepository;
@@ -35,6 +38,11 @@ class UserServiceImpTest {
     private User testUser = User.builder()
             .id(1L)
             .keyCloakId(USER_KEYCLOAK_ID)
+            .accountType(AccountType.USER)
+            .githubProfileUrl(USER_GITHUB)
+            .profilePictureUrl(USER_PICTURE)
+            .blocked(false)
+            .tags(new ArrayList<>())
             .build();
 
     @Test
@@ -46,6 +54,11 @@ class UserServiceImpTest {
         UserDto userDto = userService.createUser(USER_KEYCLOAK_ID);
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
+        assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
+        assertThat(userDto.githubProfileUrl()).isEqualTo(USER_GITHUB);
+        assertThat(userDto.profilePictureUrl()).isEqualTo(USER_PICTURE);
+        assertThat(userDto.blocked()).isEqualTo(false);
+        assertThat(userDto.tags().size()).isEqualTo(0);
     }
 
     @Test
@@ -59,6 +72,11 @@ class UserServiceImpTest {
         UserDto userDto = userService.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
+        assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
+        assertThat(userDto.githubProfileUrl()).isEqualTo(EDIT_STRING);
+        assertThat(userDto.profilePictureUrl()).isEqualTo(EDIT_STRING);
+        assertThat(userDto.blocked()).isEqualTo(false);
+        assertThat(userDto.tags().size()).isEqualTo(0);
     }
 
     @Test
