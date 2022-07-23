@@ -72,13 +72,17 @@ class UserServiceImp implements UserService{
     public UserDto blockUser(Long id) {
         User user = getUserFromRepository(id);
         user.setBlocked(true);
+        tryBlockInKeyCloak(user);
+        User savedUser = saveToRepository(user);
+        return mapUserToDto(savedUser);
+    }
+
+    private void tryBlockInKeyCloak(User user) {
         try{
             blockInKeyCloak(user.getKeyCloakId());
         } catch (Exception exception){
             throw new KeyCloakException();
         }
-        User savedUser = saveToRepository(user);
-        return mapUserToDto(savedUser);
     }
 
     private void blockInKeyCloak(String keyCloakId) {
