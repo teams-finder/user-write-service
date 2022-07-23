@@ -22,12 +22,12 @@ class UserController {
     private final UserService userService;
 
     @PatchMapping
-    ResponseEntity<UserDto> editUser(@Valid @RequestBody EditUserDto editUserDto){
-        return ResponseEntity.ok(userService.editUser(editUserDto));
+    UserDto editUser(@Valid @RequestBody EditUserDto editUserDto){
+        return userService.editUser(editUserDto);
     }
 
     @PatchMapping("/{id}/block")
-    ResponseEntity<UserDto> blockUser(@PathVariable("id") Long id){
-        return ResponseEntity.ok(userService.blockUser(id));
+    UserDto blockUser(@PathVariable("id") Long id){
+        return userService.blockUser(id);
     }
 }
