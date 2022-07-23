@@ -31,11 +31,11 @@ class UserServiceImp implements UserService{
     @Override
     public UserDto createUser(String keyCloakId) {
         User user = buildUser(keyCloakId);
-        User savedUser = save(user);
+        User savedUser = saveToRepository(user);
         return mapUserToDto(savedUser);
     }
 
-    private User save(User user) {
+    private User saveToRepository(User user) {
         return userRepository.save(user);
     }
 
@@ -52,42 +52,48 @@ class UserServiceImp implements UserService{
     @Override
     public UserDto editUser(EditUserDto editUserDto) {
         Long id = editUserDto.id();
-        if(!existsById(id)){
+        if(notExistsById(id)){
             throw new UserNotFoundException(id);
         }
-        User user = getUserById(id);
-        updateByEditDto(user, editUserDto);
-        User savedUser = save(user);
+        User user = getUserFromRepository(id);
+        User updatedUser = updateUserAndReturn(user, editUserDto);
+        User savedUser = saveToRepository(updatedUser);
         return mapUserToDto(savedUser);
     }
 
-    private void updateByEditDto(User user, EditUserDto editUserDto) {
+    private User updateUserAndReturn(User user, EditUserDto editUserDto) {
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
         user.setTags(UserMapper.mapTagsFromDto(editUserDto.tags()));
+        return user;
     }
 
     @Override
     public UserDto blockUser(Long id) {
-        User user = getUserById(id);
+        User user = getUserFromRepository(id);
         user.setBlocked(true);
         try{
             blockInKeyCloak(user.getKeyCloakId());
         } catch (Exception exception){
             throw new KeyCloakException();
         }
-        User savedUser = save(user);
+        User savedUser = saveToRepository(user);
         return mapUserToDto(savedUser);
     }
 
     private void blockInKeyCloak(String keyCloakId) {
         Keycloak keycloak = buildKeyCloak();
-        RealmResource realmResource = keycloak.realm(KEYCLOAK_REALM);
-        UsersResource usersResource = realmResource.users();
-        UserResource userResource = usersResource.get(keyCloakId);
+        UserResource userResource = getUserResource(keyCloakId, keycloak);
         UserRepresentation userRepresentation = userResource.toRepresentation();
         userRepresentation.setEnabled(false);
         userResource.update(userRepresentation);
+    }
+
+    private UserResource getUserResource(String keyCloakId, Keycloak keycloak) {
+        RealmResource realmResource = keycloak.realm(KEYCLOAK_REALM);
+        UsersResource usersResource = realmResource.users();
+        UserResource userResource = usersResource.get(keyCloakId);
+        return userResource;
     }
 
     private Keycloak buildKeyCloak() {
@@ -100,12 +106,12 @@ class UserServiceImp implements UserService{
                 .build();
     }
 
-    private User getUserById(Long id) {
+    private User getUserFromRepository(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    private boolean existsById(Long id) {
-        return userRepository.existsById(id);
+    private boolean notExistsById(Long id) {
+        return !userRepository.existsById(id);
     }
 }
