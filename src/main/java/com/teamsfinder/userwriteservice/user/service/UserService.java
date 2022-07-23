@@ -1,12 +1,10 @@
 package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
-import com.teamsfinder.userwriteservice.user.dto.UserDto;
-
-import java.security.Principal;
+import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 
 public interface UserService {
-    UserDto createUser(String keyCloakId);
-    UserDto editUser(EditUserDto editUserDto);
-    UserDto blockUser(Long id);
+    UserResponseDto createUser(String keyCloakId);
+    UserResponseDto editUser(EditUserDto editUserDto);
+    UserResponseDto blockUser(Long id);
 }

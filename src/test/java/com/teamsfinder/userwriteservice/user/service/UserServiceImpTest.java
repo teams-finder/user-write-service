@@ -1,14 +1,12 @@
 package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
-import com.teamsfinder.userwriteservice.user.dto.UserDto;
+import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
-import liquibase.pro.packaged.M;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -51,7 +49,7 @@ class UserServiceImpTest {
         //when
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
         //then
-        UserDto userDto = userService.createUser(USER_KEYCLOAK_ID);
+        UserResponseDto userDto = userService.createUser(USER_KEYCLOAK_ID);
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
         assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
@@ -69,7 +67,7 @@ class UserServiceImpTest {
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
         //then
-        UserDto userDto = userService.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
+        UserResponseDto userDto = userService.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
         assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());

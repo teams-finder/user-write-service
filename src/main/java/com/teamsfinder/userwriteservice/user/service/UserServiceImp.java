@@ -1,7 +1,7 @@
 package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
-import com.teamsfinder.userwriteservice.user.dto.UserDto;
+import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.dto.UserMapper;
 import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
@@ -29,7 +29,7 @@ class UserServiceImp implements UserService{
     private final UserRepository userRepository;
 
     @Override
-    public UserDto createUser(String keyCloakId) {
+    public UserResponseDto createUser(String keyCloakId) {
         User user = buildUser(keyCloakId);
         User savedUser = saveToRepository(user);
         return UserMapper.mapUserToDto(savedUser);
@@ -46,7 +46,7 @@ class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserDto editUser(EditUserDto editUserDto) {
+    public UserResponseDto editUser(EditUserDto editUserDto) {
         Long id = editUserDto.id();
         if(notExistsById(id)){
             throw new UserNotFoundException(id);
@@ -65,7 +65,7 @@ class UserServiceImp implements UserService{
     }
 
     @Override
-    public UserDto blockUser(Long id) {
+    public UserResponseDto blockUser(Long id) {
         User user = getUserFromRepository(id);
         user.setBlocked(true);
         tryBlockInKeyCloak(user);
