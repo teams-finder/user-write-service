@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class UserMapper {
-    public static UserDto mapToDto(User user){
+    public static UserDto mapUserToDto(User user){
         AccountType accountType = user.getAccountType();
         return new UserDto(user.getId(), user.getKeyCloakId(), accountType.toString(), user.getGithubProfileUrl(), user.getProfilePictureUrl(), user.isBlocked(), mapTagsToDto(user.getTags()));
     }

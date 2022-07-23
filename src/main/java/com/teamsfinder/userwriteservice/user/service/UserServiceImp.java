@@ -32,7 +32,7 @@ class UserServiceImp implements UserService{
     public UserDto createUser(String keyCloakId) {
         User user = buildUser(keyCloakId);
         User savedUser = saveToRepository(user);
-        return mapUserToDto(savedUser);
+        return UserMapper.mapUserToDto(savedUser);
     }
 
     private User saveToRepository(User user) {
@@ -45,10 +45,6 @@ class UserServiceImp implements UserService{
                 .build();
     }
 
-    private UserDto mapUserToDto(User user) {
-        return UserMapper.mapToDto(user);
-    }
-
     @Override
     public UserDto editUser(EditUserDto editUserDto) {
         Long id = editUserDto.id();
@@ -58,7 +54,7 @@ class UserServiceImp implements UserService{
         User user = getUserFromRepository(id);
         User updatedUser = updateUserAndReturn(user, editUserDto);
         User savedUser = saveToRepository(updatedUser);
-        return mapUserToDto(savedUser);
+        return UserMapper.mapUserToDto(savedUser);
     }
 
     private User updateUserAndReturn(User user, EditUserDto editUserDto) {
@@ -74,7 +70,7 @@ class UserServiceImp implements UserService{
         user.setBlocked(true);
         tryBlockInKeyCloak(user);
         User savedUser = saveToRepository(user);
-        return mapUserToDto(savedUser);
+        return UserMapper.mapUserToDto(savedUser);
     }
 
     private void tryBlockInKeyCloak(User user) {
