@@ -4,6 +4,7 @@ import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
+import com.teamsfinder.userwriteservice.user.keycloak.KeyCloakService;
 import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
@@ -29,6 +30,8 @@ class UserServiceImpTest {
 
     @Mock
     private UserRepository userRepository;
+    @Mock
+    private KeyCloakService keyCloakService;
 
     @InjectMocks
     private UserServiceImp userService;
@@ -87,10 +90,29 @@ class UserServiceImpTest {
     }
 
     @Test
+    void shouldBlockUser(){
+        //given
+        //when
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        //then
+        UserResponseDto userDto = userService.blockUser(1L);
+        assertThat(userDto.id()).isEqualTo(1L);
+        assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
+        assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
+        assertThat(userDto.githubProfileUrl()).isEqualTo(USER_GITHUB);
+        assertThat(userDto.profilePictureUrl()).isEqualTo(USER_PICTURE);
+        assertThat(userDto.blocked()).isEqualTo(true);
+        assertThat(userDto.tags().size()).isEqualTo(0);
+    }
+
+    @Test
     void shouldThrowKeyCloakExceptionWhileBlockingUser() {
         //given
         //when
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        Mockito.doThrow(new KeyCloakException()).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
         //then
         assertThrows(KeyCloakException.class, () -> userService.blockUser(1L));
     }
