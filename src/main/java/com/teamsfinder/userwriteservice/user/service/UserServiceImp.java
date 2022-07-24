@@ -39,13 +39,13 @@ class UserServiceImp implements UserService{
         if(notExistsById(id)){
             throw new UserNotFoundException(id);
         }
-        User user = getUserFromRepository(id);
-        User updatedUser = updateUserAndReturn(user, editUserDto);
+        User updatedUser = updateUserAndReturn(id, editUserDto);
         User savedUser = saveToRepository(updatedUser);
         return UserMapper.mapUserToResponseDto(savedUser);
     }
 
-    private User updateUserAndReturn(User user, EditUserDto editUserDto) {
+    private User updateUserAndReturn(Long id, EditUserDto editUserDto) {
+        User user = getUserFromRepository(id);
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
         user.setTags(UserMapper.mapTagsFromEditDto(editUserDto.tags()));
