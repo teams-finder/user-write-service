@@ -10,6 +10,7 @@ import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -85,8 +86,9 @@ class UserServiceImpTest {
         //given
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
         //when
+        Executable executableEditUser = () -> underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         //then
-        assertThrows(UserNotFoundException.class, () -> underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>())));
+        assertThrows(UserNotFoundException.class, executableEditUser);
     }
 
     @Test
@@ -113,8 +115,9 @@ class UserServiceImpTest {
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         Mockito.doThrow(new KeycloakException()).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
         //when
+        Executable executableBlockUser = () -> underTest.blockUser(1L);
         //then
-        assertThrows(KeycloakException.class, () -> underTest.blockUser(1L));
+        assertThrows(KeycloakException.class, executableBlockUser);
     }
 
     @Test
@@ -122,7 +125,8 @@ class UserServiceImpTest {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
         //when
+        Executable executableBlockUser = () -> underTest.blockUser(1L);
         //then
-        assertThrows(UserNotFoundException.class, () -> underTest.blockUser(1L));
+        assertThrows(UserNotFoundException.class, executableBlockUser);
     }
 }
