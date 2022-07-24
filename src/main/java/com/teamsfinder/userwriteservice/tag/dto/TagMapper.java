@@ -8,11 +8,12 @@ import java.util.stream.Collectors;
 
 @UtilityClass
 public class TagMapper {
-    public static TagResponseDto mapTagToDto(Tag tag){
+
+    public static TagResponseDto mapTagToDto(Tag tag) {
         return new TagResponseDto(tag.getId(), tag.getName());
     }
 
-    public static Tag mapTagFromEditDto(TagEditDto tagResponseDto){
+    public static Tag mapTagFromEditDto(TagEditDto tagResponseDto) {
         return Tag.builder()
                 .id(tagResponseDto.id())
                 .name(tagResponseDto.name())

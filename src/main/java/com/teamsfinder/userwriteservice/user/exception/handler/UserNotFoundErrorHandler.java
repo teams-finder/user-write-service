@@ -8,9 +8,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 class UserNotFoundErrorHandler {
+
     @ExceptionHandler({UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String handleUserNotFoundException(UserNotFoundException exception){
+    String handleUserNotFoundException(UserNotFoundException exception) {
         return exception.getMessage();
     }
 }

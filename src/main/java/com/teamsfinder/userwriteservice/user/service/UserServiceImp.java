@@ -2,8 +2,8 @@ package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.tag.dto.TagMapper;
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
-import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.dto.UserMapper;
+import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
 import com.teamsfinder.userwriteservice.user.model.User;
@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-class UserServiceImp implements UserService{
+class UserServiceImp implements UserService {
+
     private final UserRepository userRepository;
     private final KeycloakService keyCloakService;
 
@@ -37,7 +38,7 @@ class UserServiceImp implements UserService{
     @Override
     public UserResponseDto editUser(EditUserDto editUserDto) {
         Long id = editUserDto.id();
-        if(notExistsById(id)){
+        if (notExistsById(id)) {
             throw new UserNotFoundException(id);
         }
         User updatedUser = updateUserAndReturn(id, editUserDto);

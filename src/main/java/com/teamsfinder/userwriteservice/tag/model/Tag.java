@@ -18,6 +18,7 @@ import javax.persistence.Id;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Tag {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

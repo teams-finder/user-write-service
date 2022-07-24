@@ -16,15 +16,16 @@ import javax.validation.Valid;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 class UserController {
+
     private final UserService userService;
 
     @PatchMapping
-    UserResponseDto editUser(@Valid @RequestBody EditUserDto editUserDto){
+    UserResponseDto editUser(@Valid @RequestBody EditUserDto editUserDto) {
         return userService.editUser(editUserDto);
     }
 
     @PatchMapping("/{id}/block")
-    UserResponseDto blockUser(@PathVariable("id") Long id){
+    UserResponseDto blockUser(@PathVariable("id") Long id) {
         return userService.blockUser(id);
     }
 }

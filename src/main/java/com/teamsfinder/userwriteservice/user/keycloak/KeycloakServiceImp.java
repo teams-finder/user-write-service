@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 class KeycloakServiceImp implements KeycloakService {
+
     private static final String KEYCLOAK_AUTH_URL = "http://localhost:8080/auth";
     private static final String KEYCLOAK_REALM = "TeamsFinder";
     private static final String KEYCLOAK_MASTER_REALM = "master";
@@ -21,13 +22,13 @@ class KeycloakServiceImp implements KeycloakService {
 
     @Override
     public void blockInKeyCloak(User user) {
-        try{
+        try {
             Keycloak keycloak = buildKeyCloak();
             UserResource userResource = getUserResource(user.getKeyCloakId(), keycloak);
             UserRepresentation userRepresentation = userResource.toRepresentation();
             userRepresentation.setEnabled(false);
             userResource.update(userRepresentation);
-        } catch (Exception exception){
+        } catch (Exception exception) {
             throw new KeycloakException();
         }
     }
