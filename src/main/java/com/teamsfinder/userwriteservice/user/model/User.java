@@ -43,6 +43,7 @@ public class User {
     private String githubProfileUrl;
     private String profilePictureUrl;
     private boolean blocked;
+    
     @Builder.Default
     @ManyToMany
     @JoinTable(
