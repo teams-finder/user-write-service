@@ -20,7 +20,7 @@ class UserServiceImp implements UserService{
     public UserResponseDto createUser(String keyCloakId) {
         User user = buildUser(keyCloakId);
         User savedUser = saveToRepository(user);
-        return UserMapper.mapUserToDto(savedUser);
+        return UserMapper.mapUserToResponseDto(savedUser);
     }
 
     private User saveToRepository(User user) {
@@ -42,13 +42,13 @@ class UserServiceImp implements UserService{
         User user = getUserFromRepository(id);
         User updatedUser = updateUserAndReturn(user, editUserDto);
         User savedUser = saveToRepository(updatedUser);
-        return UserMapper.mapUserToDto(savedUser);
+        return UserMapper.mapUserToResponseDto(savedUser);
     }
 
     private User updateUserAndReturn(User user, EditUserDto editUserDto) {
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
-        user.setTags(UserMapper.mapTagsFromDto(editUserDto.tags()));
+        user.setTags(UserMapper.mapTagsFromEditDto(editUserDto.tags()));
         return user;
     }
 
@@ -58,7 +58,7 @@ class UserServiceImp implements UserService{
         user.setBlocked(true);
         keyCloakService.blockInKeyCloak(user);
         User savedUser = saveToRepository(user);
-        return UserMapper.mapUserToDto(savedUser);
+        return UserMapper.mapUserToResponseDto(savedUser);
     }
 
 

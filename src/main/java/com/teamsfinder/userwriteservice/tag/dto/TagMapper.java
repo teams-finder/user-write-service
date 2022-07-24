@@ -5,14 +5,14 @@ import lombok.experimental.UtilityClass;
 
 @UtilityClass
 public class TagMapper {
-    public static TagDto mapToDto(Tag tag){
-        return new TagDto(tag.getId(), tag.getName());
+    public static TagResponseDto mapTagToDto(Tag tag){
+        return new TagResponseDto(tag.getId(), tag.getName());
     }
 
-    public static Tag mapFromDto(TagDto tagDto){
+    public static Tag mapTagFromEditDto(TagEditDto tagResponseDto){
         return Tag.builder()
-                .id(tagDto.id())
-                .name(tagDto.name())
+                .id(tagResponseDto.id())
+                .name(tagResponseDto.name())
                 .build();
     }
 }
