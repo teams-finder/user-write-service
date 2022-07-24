@@ -98,8 +98,8 @@ class UserServiceImpTest {
         Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
         //when
-        //then
         UserResponseDto userDto = underTest.blockUser(1L);
+        //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
         assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
