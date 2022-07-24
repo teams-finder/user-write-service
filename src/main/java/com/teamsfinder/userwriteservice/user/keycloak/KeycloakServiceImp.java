@@ -1,6 +1,6 @@
 package com.teamsfinder.userwriteservice.user.keycloak;
 
-import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
+import com.teamsfinder.userwriteservice.user.exception.KeycloakException;
 import com.teamsfinder.userwriteservice.user.model.User;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
@@ -11,7 +11,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.stereotype.Service;
 
 @Service
-class KeyCloakServiceImp implements KeyCloakService{
+class KeycloakServiceImp implements KeycloakService {
     private static final String KEYCLOAK_AUTH_URL = "http://localhost:8080/auth";
     private static final String KEYCLOAK_REALM = "TeamsFinder";
     private static final String KEYCLOAK_MASTER_REALM = "master";
@@ -28,7 +28,7 @@ class KeyCloakServiceImp implements KeyCloakService{
             userRepresentation.setEnabled(false);
             userResource.update(userRepresentation);
         } catch (Exception exception){
-            throw new KeyCloakException();
+            throw new KeycloakException();
         }
     }
 

@@ -4,9 +4,12 @@ import com.teamsfinder.userwriteservice.UserWriteServiceApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 @SpringBootTest(classes = UserWriteServiceApplication.class)
+@Sql(scripts = "classpath:import.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class TestContainer {
 
     private static final PostgreSQLContainer postgresContainer;

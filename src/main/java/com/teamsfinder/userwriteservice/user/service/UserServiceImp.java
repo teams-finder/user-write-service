@@ -1,10 +1,11 @@
 package com.teamsfinder.userwriteservice.user.service;
 
+import com.teamsfinder.userwriteservice.tag.dto.TagMapper;
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.dto.UserMapper;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
-import com.teamsfinder.userwriteservice.user.keycloak.KeyCloakService;
+import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 class UserServiceImp implements UserService{
     private final UserRepository userRepository;
-    private final KeyCloakService keyCloakService;
+    private final KeycloakService keyCloakService;
 
     @Override
     public UserResponseDto createUser(String keyCloakId) {
@@ -48,7 +49,7 @@ class UserServiceImp implements UserService{
         User user = getUserFromRepository(id);
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
-        user.setTags(UserMapper.mapTagsFromEditDto(editUserDto.tags()));
+        user.setTags(TagMapper.mapTagsFromEditDto(editUserDto.tags()));
         return user;
     }
 

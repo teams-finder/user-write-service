@@ -2,9 +2,9 @@ package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
-import com.teamsfinder.userwriteservice.user.exception.KeyCloakException;
+import com.teamsfinder.userwriteservice.user.exception.KeycloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
-import com.teamsfinder.userwriteservice.user.keycloak.KeyCloakService;
+import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
 import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
@@ -31,10 +31,10 @@ class UserServiceImpTest {
     @Mock
     private UserRepository userRepository;
     @Mock
-    private KeyCloakService keyCloakService;
+    private KeycloakService keyCloakService;
 
     @InjectMocks
-    private UserServiceImp userService;
+    private UserServiceImp underTest;
 
     private User testUser = User.builder()
             .id(1L)
@@ -49,10 +49,10 @@ class UserServiceImpTest {
     @Test
     void shouldCreateUser() {
         //given
-        //when
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        //when
+        UserResponseDto userDto = underTest.createUser(USER_KEYCLOAK_ID);
         //then
-        UserResponseDto userDto = userService.createUser(USER_KEYCLOAK_ID);
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
         assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
@@ -65,12 +65,12 @@ class UserServiceImpTest {
     @Test
     void shouldEditUser() {
         //given
-        //when
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        //when
+        UserResponseDto userDto = underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         //then
-        UserResponseDto userDto = userService.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
         assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
@@ -83,21 +83,21 @@ class UserServiceImpTest {
     @Test
     void shouldThrowUserNotFoundExceptionWhileEditingUser(){
         //given
-        //when
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
+        //when
         //then
-        assertThrows(UserNotFoundException.class, () -> userService.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>())));
+        assertThrows(UserNotFoundException.class, () -> underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>())));
     }
 
     @Test
     void shouldBlockUser(){
         //given
-        //when
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        //when
         //then
-        UserResponseDto userDto = userService.blockUser(1L);
+        UserResponseDto userDto = underTest.blockUser(1L);
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
         assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
@@ -110,19 +110,19 @@ class UserServiceImpTest {
     @Test
     void shouldThrowKeyCloakExceptionWhileBlockingUser() {
         //given
-        //when
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
-        Mockito.doThrow(new KeyCloakException()).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        Mockito.doThrow(new KeycloakException()).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        //when
         //then
-        assertThrows(KeyCloakException.class, () -> userService.blockUser(1L));
+        assertThrows(KeycloakException.class, () -> underTest.blockUser(1L));
     }
 
     @Test
     void shouldThrowUserNotFoundExceptionWhileBlockingUser() {
         //given
-        //when
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+        //when
         //then
-        assertThrows(UserNotFoundException.class, () -> userService.blockUser(1L));
+        assertThrows(UserNotFoundException.class, () -> underTest.blockUser(1L));
     }
 }

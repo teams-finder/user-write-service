@@ -16,18 +16,6 @@ import java.util.stream.Collectors;
 public class UserMapper {
     public static UserResponseDto mapUserToResponseDto(User user){
         AccountType accountType = user.getAccountType();
-        return new UserResponseDto(user.getId(), user.getKeyCloakId(), accountType.toString(), user.getGithubProfileUrl(), user.getProfilePictureUrl(), user.isBlocked(), mapTagsToResponseDto(user.getTags()));
-    }
-
-    private static List<TagResponseDto> mapTagsToResponseDto(List<Tag> tags) {
-        return tags.stream()
-                .map(TagMapper::mapTagToDto)
-                .toList();
-    }
-
-    public static List<Tag> mapTagsFromEditDto(List<TagEditDto> tags) {
-        return tags.stream()
-                .map(TagMapper::mapTagFromEditDto)
-                .collect(Collectors.toList());
+        return new UserResponseDto(user.getId(), user.getKeyCloakId(), accountType.toString(), user.getGithubProfileUrl(), user.getProfilePictureUrl(), user.isBlocked(), TagMapper.mapTagsToResponseDto(user.getTags()));
     }
 }

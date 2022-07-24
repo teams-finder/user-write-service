@@ -1,9 +1,9 @@
 package com.teamsfinder.userwriteservice.user.exception;
 
-public class KeyCloakException extends RuntimeException {
+public class KeycloakException extends RuntimeException {
     private static final String MESSAGE = "Error while disabling user in keycloak server!";
 
-    public KeyCloakException() {
+    public KeycloakException() {
         super(MESSAGE);
     }
 }
