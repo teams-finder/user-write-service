@@ -20,10 +20,15 @@ class KeycloakListener {
 
     @RabbitListener(queues = "keycloak.queue")
     public void handleUserCreateAccount(String data) throws JsonProcessingException {
+        String replacedQuoteKeyCloakId = getKeyCloakId(data);
+        userService.createUser(replacedQuoteKeyCloakId);
+    }
+
+    private String getKeyCloakId(String data) throws JsonProcessingException {
         ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
         JsonNode keyCloakIdField = node.get(USER_ID_PATH);
         String keyCloakIdString = keyCloakIdField.toString();
         String replacedQuoteKeyCloakId = keyCloakIdString.replaceAll(QUOTE, EMPTY_STRING);
-        userService.createUser(replacedQuoteKeyCloakId);
+        return replacedQuoteKeyCloakId;
     }
 }

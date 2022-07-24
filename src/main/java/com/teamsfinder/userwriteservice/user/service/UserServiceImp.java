@@ -60,7 +60,7 @@ class UserServiceImp implements UserService{
         User savedUser = saveToRepository(user);
         return UserMapper.mapUserToResponseDto(savedUser);
     }
-    
+
     private User getUserFromRepository(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
