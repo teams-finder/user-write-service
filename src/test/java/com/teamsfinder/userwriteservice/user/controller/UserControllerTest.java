@@ -1,21 +1,17 @@
 package com.teamsfinder.userwriteservice.user.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.teamsfinder.userwriteservice.user.TestContainer;
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
-import org.testcontainers.shaded.com.fasterxml.jackson.databind.SerializationFeature;
 
-import java.net.URI;
 import java.util.ArrayList;
 
 @AutoConfigureMockMvc
@@ -39,9 +35,9 @@ class UserControllerTest extends TestContainer {
         EditUserDto editUserDto = new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>());
         String json = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
         //when
+        ResultActions performRequest = mockMvc.perform(MockMvcRequestBuilders.patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
         //then
-        mockMvc.perform(MockMvcRequestBuilders.patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(MockMvcResultMatchers.status().isOk())
+        performRequest.andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath(ID_JSON_PATH).value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath(GITHUB_JSON_PATH).value(EDIT_STRING))
                 .andExpect(MockMvcResultMatchers.jsonPath(PICTURE_JSON_PATH).value(EDIT_STRING))
@@ -54,17 +50,17 @@ class UserControllerTest extends TestContainer {
         EditUserDto editUserDto = new EditUserDto(1L, null, EDIT_STRING, new ArrayList<>());
         String json = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
         //when
+        ResultActions performRequest = mockMvc.perform(MockMvcRequestBuilders.patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
         //then
-        mockMvc.perform(MockMvcRequestBuilders.patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+        performRequest.andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     @Test
     void shouldThrowBadGatewayWhileBlockingUser() throws Exception {
         //given
         //when
+        ResultActions performRequest = mockMvc.perform(MockMvcRequestBuilders.patch(BLOCK_END_POINT));
         //then
-        mockMvc.perform(MockMvcRequestBuilders.patch(BLOCK_END_POINT))
-                .andExpect(MockMvcResultMatchers.status().isBadGateway());
+        performRequest.andExpect(MockMvcResultMatchers.status().isBadGateway());
     }
 }

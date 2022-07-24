@@ -1,4 +1,4 @@
-package com.teamsfinder.userwriteservice.user.controller;
+package com.teamsfinder.userwriteservice.user;
 
 import com.teamsfinder.userwriteservice.UserWriteServiceApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,7 +10,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @SpringBootTest(classes = UserWriteServiceApplication.class)
 @Sql(scripts = "classpath:import.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-class TestContainer {
+public abstract class TestContainer {
 
     private static final PostgreSQLContainer postgresContainer;
     private static final String SPRING_DB_URL_PROPERTY = "spring.datasource.url";
