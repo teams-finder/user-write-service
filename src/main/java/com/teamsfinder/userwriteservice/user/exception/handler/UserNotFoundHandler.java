@@ -1,5 +1,6 @@
-package com.teamsfinder.userwriteservice.user.exception;
+package com.teamsfinder.userwriteservice.user.exception.handler;
 
+import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
