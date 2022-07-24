@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImpTest {
@@ -35,7 +35,7 @@ class UserServiceImpTest {
     private KeycloakService keyCloakService;
 
     @InjectMocks
-    private UserServiceImp underTest;
+    private UserService underTest;
 
     private User testUser = User.builder()
             .id(1L)
@@ -82,7 +82,7 @@ class UserServiceImpTest {
     }
 
     @Test
-    void shouldThrowUserNotFoundExceptionWhileEditingUser(){
+    void shouldThrowUserNotFoundExceptionWhileEditingUser() {
         //given
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
         //when
@@ -92,13 +92,14 @@ class UserServiceImpTest {
     }
 
     @Test
-    void shouldBlockUser(){
+    void shouldBlockUser() {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
         Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
         //when
         UserResponseDto userDto = underTest.blockUser(1L);
+
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
