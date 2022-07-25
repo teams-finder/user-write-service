@@ -1,16 +1,21 @@
 package com.teamsfinder.userwriteservice.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamsfinder.userwriteservice.UserWriteServiceApplication;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+@AutoConfigureMockMvc
 @SpringBootTest(classes = UserWriteServiceApplication.class)
 @Sql(scripts = "classpath:import.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:clear.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public abstract class TestContainer {
+public abstract class IntegrationBaseClass {
 
     private static final PostgreSQLContainer postgresContainer;
     private static final String SPRING_DB_URL_PROPERTY = "spring.datasource.url";
@@ -23,6 +28,12 @@ public abstract class TestContainer {
                 .withReuse(true);
         postgresContainer.start();
     }
+
+    @Autowired
+    protected MockMvc mockMvc;
+
+    @Autowired
+    protected ObjectMapper objectMapper;
 
     @DynamicPropertySource
     public static void setDatasourceProperties(final DynamicPropertyRegistry registry) {

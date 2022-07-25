@@ -1,6 +1,7 @@
 package com.teamsfinder.userwriteservice.user.service;
 
-import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
+import com.teamsfinder.userwriteservice.user.UnitBaseClass;
+import com.teamsfinder.userwriteservice.user.dto.EditUserRequestDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.KeycloakException;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
@@ -9,12 +10,10 @@ import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.Optional;
@@ -22,8 +21,9 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@ExtendWith(MockitoExtension.class)
-class UserServiceImpTest {
+
+class UserServiceTest extends UnitBaseClass {
+
     private static final String USER_KEYCLOAK_ID = "KEYCLOAKID";
     private static final String EDIT_STRING = "EDITED";
     private static final String USER_GITHUB = "GITHUB";
@@ -70,7 +70,7 @@ class UserServiceImpTest {
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
         Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
         //when
-        UserResponseDto userDto = underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
+        UserResponseDto userDto = underTest.editUser(new EditUserRequestDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
@@ -86,7 +86,7 @@ class UserServiceImpTest {
         //given
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
         //when
-        Executable executableEditUser = () -> underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
+        Executable executableEditUser = () -> underTest.editUser(new EditUserRequestDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         //then
         assertThrows(UserNotFoundException.class, executableEditUser);
     }

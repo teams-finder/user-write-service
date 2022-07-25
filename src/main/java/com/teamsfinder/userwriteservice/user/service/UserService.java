@@ -1,11 +1,11 @@
 package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.tag.dto.TagMapper;
-import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
-import com.teamsfinder.userwriteservice.user.dto.UserMapper;
+import com.teamsfinder.userwriteservice.user.dto.EditUserRequestDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
+import com.teamsfinder.userwriteservice.user.mapper.UserMapper;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService{
+public class UserService {
 
     private final UserRepository userRepository;
     private final KeycloakService keyCloakService;
+
     public UserResponseDto createUser(String keyCloakId) {
         User user = buildUser(keyCloakId);
         User savedUser = saveToRepository(user);
@@ -33,7 +34,7 @@ public class UserService{
                 .build();
     }
 
-    public UserResponseDto editUser(EditUserDto editUserDto) {
+    public UserResponseDto editUser(EditUserRequestDto editUserDto) {
         Long id = editUserDto.id();
         if (notExistsById(id)) {
             throw new UserNotFoundException(id);
@@ -43,7 +44,7 @@ public class UserService{
         return UserMapper.mapUserToResponseDto(savedUser);
     }
 
-    private User updateUserAndReturn(Long id, EditUserDto editUserDto) {
+    private User updateUserAndReturn(Long id, EditUserRequestDto editUserDto) {
         User user = getUserFromRepository(id);
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());

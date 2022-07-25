@@ -6,6 +6,6 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public record EditUserDto(@NotNull Long id, @NotEmpty String githubProfileUrl, @NotEmpty String profilePictureUrl,
-                          @NotNull List<TagEditDto> tags) {
+public record EditUserRequestDto(@NotNull Long id, @NotEmpty String githubProfileUrl, @NotEmpty String profilePictureUrl,
+                                 @NotNull List<TagEditDto> tags) {
 }
