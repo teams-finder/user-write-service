@@ -8,17 +8,24 @@ import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
-public class KeycloakService{
+public class KeycloakService {
 
-    private static final String KEYCLOAK_AUTH_URL = "http://localhost:8080/auth";
-    private static final String KEYCLOAK_REALM = "TeamsFinder";
-    private static final String KEYCLOAK_MASTER_REALM = "master";
-    private static final String KEYCLOAK_CLIENT_ID = "admin-cli";
-    private static final String KEYCLOAK_USERNAME = "admin";
-    private static final String KEYCLOAK_PASSWORD = "admin";
+    @Value("keycloak.auth-url")
+    private String KEYCLOAK_AUTH_URL;
+    @Value("keycloak.realm")
+    private String KEYCLOAK_REALM;
+    @Value("keycloak.master-realm")
+    private String KEYCLOAK_MASTER_REALM;
+    @Value("keycloak.client-id")
+    private String KEYCLOAK_CLIENT_ID;
+    @Value("keycloak.username")
+    private String KEYCLOAK_USERNAME;
+    @Value("keycloak.password")
+    private String KEYCLOAK_PASSWORD;
 
     public void blockInKeyCloak(User user) {
         try {
@@ -47,5 +54,17 @@ public class KeycloakService{
                 .username(KEYCLOAK_USERNAME)
                 .password(KEYCLOAK_PASSWORD)
                 .build();
+    }
+
+    @Override
+    public String toString() {
+        return "KeycloakService{" +
+                "KEYCLOAK_AUTH_URL='" + KEYCLOAK_AUTH_URL + '\'' +
+                ", KEYCLOAK_REALM='" + KEYCLOAK_REALM + '\'' +
+                ", KEYCLOAK_MASTER_REALM='" + KEYCLOAK_MASTER_REALM + '\'' +
+                ", KEYCLOAK_CLIENT_ID='" + KEYCLOAK_CLIENT_ID + '\'' +
+                ", KEYCLOAK_USERNAME='" + KEYCLOAK_USERNAME + '\'' +
+                ", KEYCLOAK_PASSWORD='" + KEYCLOAK_PASSWORD + '\'' +
+                '}';
     }
 }

@@ -2,8 +2,10 @@ package com.teamsfinder.userwriteservice.user.controller;
 
 import com.teamsfinder.userwriteservice.user.dto.EditUserDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
+import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
 import com.teamsfinder.userwriteservice.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
