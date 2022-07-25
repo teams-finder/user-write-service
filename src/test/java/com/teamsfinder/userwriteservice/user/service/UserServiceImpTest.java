@@ -50,7 +50,7 @@ class UserServiceImpTest {
     @Test
     void shouldCreateUser() {
         //given
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
         //when
         UserResponseDto userDto = underTest.createUser(USER_KEYCLOAK_ID);
         //then
@@ -68,7 +68,7 @@ class UserServiceImpTest {
         //given
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
         //when
         UserResponseDto userDto = underTest.editUser(new EditUserDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
         //then
@@ -96,10 +96,9 @@ class UserServiceImpTest {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
-        Mockito.when(userRepository.save(Mockito.any(User.class))).thenReturn(testUser);
+        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
         //when
         UserResponseDto userDto = underTest.blockUser(1L);
-
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
