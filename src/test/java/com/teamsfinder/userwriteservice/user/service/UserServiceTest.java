@@ -50,17 +50,13 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldCreateUser() {
         //given
-        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
+        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
+
         //when
         UserResponseDto userDto = underTest.createUser(USER_KEYCLOAK_ID);
+
         //then
-        assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
-        assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
-        assertThat(userDto.githubProfileUrl()).isEqualTo(USER_GITHUB);
-        assertThat(userDto.profilePictureUrl()).isEqualTo(USER_PICTURE);
-        assertThat(userDto.blocked()).isEqualTo(false);
-        assertThat(userDto.tags().size()).isEqualTo(0);
     }
 
     @Test
@@ -68,9 +64,13 @@ class UserServiceTest extends UnitBaseClass {
         //given
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
         Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
-        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
+        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
+
         //when
-        UserResponseDto userDto = underTest.editUser(new EditUserRequestDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
+        UserResponseDto userDto =
+                underTest.editUser(new EditUserRequestDto(1L, EDIT_STRING,
+                        EDIT_STRING, new ArrayList<>()));
+
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
@@ -85,8 +85,12 @@ class UserServiceTest extends UnitBaseClass {
     void shouldThrowUserNotFoundExceptionWhileEditingUser() {
         //given
         Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
+
         //when
-        Executable executableEditUser = () -> underTest.editUser(new EditUserRequestDto(1L, EDIT_STRING, EDIT_STRING, new ArrayList<>()));
+        Executable executableEditUser =
+                () -> underTest.editUser(new EditUserRequestDto(1L,
+                        EDIT_STRING, EDIT_STRING, new ArrayList<>()));
+
         //then
         assertThrows(UserNotFoundException.class, executableEditUser);
     }
@@ -95,10 +99,12 @@ class UserServiceTest extends UnitBaseClass {
     void shouldBlockUser() {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
         Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
-        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository.save(Mockito.any(User.class)));
+
         //when
         UserResponseDto userDto = underTest.blockUser(1L);
+
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
@@ -114,8 +120,10 @@ class UserServiceTest extends UnitBaseClass {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         Mockito.doThrow(new KeycloakException()).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+
         //when
         Executable executableBlockUser = () -> underTest.blockUser(1L);
+
         //then
         assertThrows(KeycloakException.class, executableBlockUser);
     }
@@ -124,8 +132,10 @@ class UserServiceTest extends UnitBaseClass {
     void shouldThrowUserNotFoundExceptionWhileBlockingUser() {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+
         //when
         Executable executableBlockUser = () -> underTest.blockUser(1L);
+
         //then
         assertThrows(UserNotFoundException.class, executableBlockUser);
     }

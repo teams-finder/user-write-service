@@ -1,11 +1,12 @@
 package com.teamsfinder.userwriteservice.user.mapper;
 
 
-import com.teamsfinder.userwriteservice.tag.dto.TagMapper;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import lombok.experimental.UtilityClass;
+
+import java.util.ArrayList;
 
 @UtilityClass
 public class UserMapper {
@@ -19,6 +20,6 @@ public class UserMapper {
                 user.getGithubProfileUrl(),
                 user.getProfilePictureUrl(),
                 user.isBlocked(),
-                TagMapper.mapTagsToResponseDto(user.getTags()));
+                new ArrayList<>());
     }
 }

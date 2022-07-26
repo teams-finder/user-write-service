@@ -1,6 +1,7 @@
 package com.teamsfinder.userwriteservice.user.service;
 
-import com.teamsfinder.userwriteservice.tag.dto.TagMapper;
+import com.teamsfinder.userwriteservice.tag.dto.TagEditDto;
+import com.teamsfinder.userwriteservice.tag.model.Tag;
 import com.teamsfinder.userwriteservice.user.dto.EditUserRequestDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
@@ -10,6 +11,9 @@ import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,8 +52,14 @@ public class UserService {
         User user = getUserFromRepository(id);
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
-        user.setTags(TagMapper.mapTagsFromEditDto(editUserDto.tags()));
+        user.setTags(mapTags(editUserDto.tags()));
         return user;
+    }
+
+    private List<Tag> mapTags(List<TagEditDto> tags) {
+        return tags.stream()
+                .map(tag -> new Tag(tag))
+                .collect(Collectors.toList());
     }
 
     public UserResponseDto blockUser(Long id) {

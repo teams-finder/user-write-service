@@ -1,5 +1,6 @@
 package com.teamsfinder.userwriteservice.tag.model;
 
+import com.teamsfinder.userwriteservice.tag.dto.TagEditDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,4 +25,9 @@ public class Tag {
     private Long id;
 
     private String name;
+
+    public Tag(TagEditDto tagEditDto) {
+        this.id = tagEditDto.id();
+        this.name = tagEditDto.name();
+    }
 }
