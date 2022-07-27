@@ -1,12 +1,13 @@
 package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.tag.dto.TagEditDto;
+import com.teamsfinder.userwriteservice.tag.dto.TagResponseDto;
 import com.teamsfinder.userwriteservice.tag.model.Tag;
 import com.teamsfinder.userwriteservice.user.dto.EditUserRequestDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
-import com.teamsfinder.userwriteservice.user.mapper.UserMapper;
+import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,7 @@ public class UserService {
     public UserResponseDto createUser(String keyCloakId) {
         User user = buildUser(keyCloakId);
         User savedUser = saveToRepository(user);
-        return UserMapper.mapUserToResponseDto(savedUser);
+        return mapUserToResponseDto(savedUser);
     }
 
     private User saveToRepository(User user) {
@@ -45,21 +46,54 @@ public class UserService {
         }
         User updatedUser = updateUserAndReturn(id, editUserDto);
         User savedUser = saveToRepository(updatedUser);
-        return UserMapper.mapUserToResponseDto(savedUser);
+        return mapUserToResponseDto(savedUser);
+    }
+
+    private UserResponseDto mapUserToResponseDto(User user) {
+        AccountType accountType = user.getAccountType();
+        return new UserResponseDto(
+                user.getId(),
+                user.getKeyCloakId(),
+                accountType.toString(),
+                user.getGithubProfileUrl(),
+                user.getProfilePictureUrl(),
+                user.isBlocked(),
+                mapTagsToDto(user.getTags())
+        );
+    }
+
+    private List<TagResponseDto> mapTagsToDto(List<Tag> tags) {
+        return tags.stream()
+                .map(tag -> mapTagToDto(tag))
+                .toList();
+    }
+
+    private TagResponseDto mapTagToDto(Tag tag) {
+        return new TagResponseDto(
+                tag.getId(),
+                tag.getName()
+        );
     }
 
     private User updateUserAndReturn(Long id, EditUserRequestDto editUserDto) {
         User user = getUserFromRepository(id);
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
-        user.setTags(mapTags(editUserDto.tags()));
+        user.setTags(mapTagsFromDto(editUserDto.tags()));
         return user;
     }
 
-    private List<Tag> mapTags(List<TagEditDto> tags) {
+    private List<Tag> mapTagsFromDto(List<TagEditDto> tags) {
         return tags.stream()
-                .map(tag -> new Tag(tag))
+                .map(tag -> mapTagFromDto(tag))
                 .collect(Collectors.toList());
+    }
+
+    private Tag mapTagFromDto(TagEditDto tagDto) {
+        return Tag.builder()
+                .id(tagDto.id())
+                .name(tagDto.name())
+                .build();
     }
 
     public UserResponseDto blockUser(Long id) {
@@ -67,7 +101,7 @@ public class UserService {
         user.setBlocked(true);
         keyCloakService.blockInKeyCloak(user);
         User savedUser = saveToRepository(user);
-        return UserMapper.mapUserToResponseDto(savedUser);
+        return mapUserToResponseDto(savedUser);
     }
 
     private User getUserFromRepository(Long id) {
