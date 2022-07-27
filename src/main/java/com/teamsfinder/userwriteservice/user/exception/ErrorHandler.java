@@ -6,20 +6,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.time.LocalDateTime;
+
 @RestControllerAdvice
 @Slf4j
 class ErrorHandler {
 
     @ExceptionHandler({KeycloakException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    String handleKeyCloakException(KeycloakException exception) {
+    ErrorResponse handleKeyCloakException(KeycloakException exception) {
         log.error(exception.getMessage());
-        return exception.getMessage();
+        return new ErrorResponse(HttpStatus.BAD_REQUEST.toString(),
+                exception.getMessage(), LocalDateTime.now());
     }
 
     @ExceptionHandler({UserNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String handleUserNotFoundException(UserNotFoundException exception) {
-        return exception.getMessage();
+    ErrorResponse handleUserNotFoundException(UserNotFoundException exception) {
+        return new ErrorResponse(HttpStatus.NOT_FOUND.toString(),
+                exception.getMessage(), LocalDateTime.now());
     }
 }
