@@ -1,4 +1,9 @@
 spring:
+  config:
+    import: optional:configserver:http://localhost:8888/
+  cloud:
+    config:
+      token: roottoken
   liquibase:
     change-log: classpath:db/changelog/db.changelog-master.xml
   jpa:
