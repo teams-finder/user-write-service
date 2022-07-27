@@ -13,6 +13,10 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 class UserControllerTest extends IntegrationBaseClass {
 
     private static final String EDIT_STRING = "EDITED";
@@ -34,14 +38,14 @@ class UserControllerTest extends IntegrationBaseClass {
         String json = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
 
         //when
-        ResultActions performRequest = mockMvc.perform(MockMvcRequestBuilders.patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
+        ResultActions performRequest = mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
 
         //then
-        performRequest.andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath(ID_JSON_PATH).value(user.getId()))
-                .andExpect(MockMvcResultMatchers.jsonPath(GITHUB_JSON_PATH).value(EDIT_STRING))
-                .andExpect(MockMvcResultMatchers.jsonPath(PICTURE_JSON_PATH).value(EDIT_STRING))
-                .andExpect(MockMvcResultMatchers.jsonPath(TAGS_JSON_PATH).exists());
+        performRequest.andExpect(status().isOk())
+                .andExpect(jsonPath(ID_JSON_PATH).value(user.getId()))
+                .andExpect(jsonPath(GITHUB_JSON_PATH).value(EDIT_STRING))
+                .andExpect(jsonPath(PICTURE_JSON_PATH).value(EDIT_STRING))
+                .andExpect(jsonPath(TAGS_JSON_PATH).exists());
     }
 
     @Test
@@ -51,10 +55,10 @@ class UserControllerTest extends IntegrationBaseClass {
         String json = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
 
         //when
-        ResultActions performRequest = mockMvc.perform(MockMvcRequestBuilders.patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
+        ResultActions performRequest = mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
 
         //then
-        performRequest.andExpect(MockMvcResultMatchers.status().isBadRequest());
+        performRequest.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -62,9 +66,9 @@ class UserControllerTest extends IntegrationBaseClass {
         //given
 
         //when
-        ResultActions performRequest = mockMvc.perform(MockMvcRequestBuilders.patch(BLOCK_END_POINT));
+        ResultActions performRequest = mockMvc.perform(patch(BLOCK_END_POINT));
 
         //then
-        performRequest.andExpect(MockMvcResultMatchers.status().isBadGateway());
+        performRequest.andExpect(status().isBadGateway());
     }
 }
