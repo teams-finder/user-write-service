@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 class KeycloakErrorHandler {
 
     @ExceptionHandler({KeycloakException.class})
-    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     String handleKeyCloakException(KeycloakException exception) {
         return exception.getMessage();
     }
