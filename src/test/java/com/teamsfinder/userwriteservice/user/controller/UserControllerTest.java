@@ -8,13 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class UserControllerTest extends IntegrationBaseClass {
@@ -34,11 +32,14 @@ class UserControllerTest extends IntegrationBaseClass {
     void shouldEditUser() throws Exception {
         //given
         User user = userCreator.create();
-        EditUserRequestDto editUserDto = new EditUserRequestDto(user.getId(), EDIT_STRING, EDIT_STRING, new ArrayList<>());
-        String json = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
+        EditUserRequestDto editUserDto = new EditUserRequestDto(user.getId(),
+                EDIT_STRING, EDIT_STRING, new ArrayList<>());
+        String json =
+                objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
 
         //when
-        ResultActions performRequest = mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
+        ResultActions performRequest =
+                mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
 
         //then
         performRequest.andExpect(status().isOk())
@@ -51,11 +52,14 @@ class UserControllerTest extends IntegrationBaseClass {
     @Test
     void shouldThrowWhileEditingUser() throws Exception {
         //given
-        EditUserRequestDto editUserDto = new EditUserRequestDto(1L, null, EDIT_STRING, new ArrayList<>());
-        String json = objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
+        EditUserRequestDto editUserDto = new EditUserRequestDto(1L, null,
+                EDIT_STRING, new ArrayList<>());
+        String json =
+                objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
 
         //when
-        ResultActions performRequest = mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
+        ResultActions performRequest =
+                mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
 
         //then
         performRequest.andExpect(status().isBadRequest());
@@ -69,6 +73,6 @@ class UserControllerTest extends IntegrationBaseClass {
         ResultActions performRequest = mockMvc.perform(patch(BLOCK_END_POINT));
 
         //then
-        performRequest.andExpect(status().isBadGateway());
+        performRequest.andExpect(status().isBadRequest());
     }
 }

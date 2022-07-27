@@ -119,7 +119,7 @@ class UserServiceTest extends UnitBaseClass {
     void shouldThrowKeyCloakExceptionWhileBlockingUser() {
         //given
         Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
-        Mockito.doThrow(new KeycloakException()).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        Mockito.doThrow(new KeycloakException("Test throw error")).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
 
         //when
         Executable executableBlockUser = () -> underTest.blockUser(1L);

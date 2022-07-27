@@ -30,12 +30,14 @@ public class KeycloakService {
     public void blockInKeyCloak(User user) {
         try {
             Keycloak keycloak = buildKeyCloak();
-            UserResource userResource = getUserResource(user.getKeyCloakId(), keycloak);
-            UserRepresentation userRepresentation = userResource.toRepresentation();
+            UserResource userResource = getUserResource(user.getKeyCloakId(),
+                    keycloak);
+            UserRepresentation userRepresentation =
+                    userResource.toRepresentation();
             userRepresentation.setEnabled(false);
             userResource.update(userRepresentation);
         } catch (Exception exception) {
-            throw new KeycloakException();
+            throw new KeycloakException(exception.getMessage());
         }
     }
 
