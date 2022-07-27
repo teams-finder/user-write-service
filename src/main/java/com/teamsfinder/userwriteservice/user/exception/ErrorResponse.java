@@ -6,5 +6,5 @@ record ErrorResponse(
         String httpStatus,
         String message,
         LocalDateTime localDateTime) {
-    
+
 }
