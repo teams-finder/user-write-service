@@ -15,14 +15,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 public abstract class IntegrationBaseClass {
 
     private static final PostgreSQLContainer postgresContainer;
-    private static final String SPRING_DB_URL_PROPERTY = "spring.datasource" +
-            ".url";
-    private static final String SPRING_DB_PASSWORD_PROPERTY = "spring" +
-            ".datasource.password";
-    private static final String SPRING_DB_USERNAME_PROPERTY = "spring" +
-            ".datasource.username";
-    private static final String SPRING_DB_DRIVER_CLASS_NAME_PROPERTY =
-            "spring.datasource.driverClassName";
 
     static {
         postgresContainer = (PostgreSQLContainer) new PostgreSQLContainer(
@@ -39,12 +31,12 @@ public abstract class IntegrationBaseClass {
 
     @DynamicPropertySource
     public static void setDatasourceProperties(final DynamicPropertyRegistry registry) {
-        registry.add(SPRING_DB_URL_PROPERTY, postgresContainer::getJdbcUrl);
-        registry.add(SPRING_DB_PASSWORD_PROPERTY,
+        registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
+        registry.add("spring.datasource.password",
                 postgresContainer::getPassword);
-        registry.add(SPRING_DB_USERNAME_PROPERTY,
+        registry.add("spring.datasource.username",
                 postgresContainer::getUsername);
-        registry.add(SPRING_DB_DRIVER_CLASS_NAME_PROPERTY,
+        registry.add("spring.datasource.driverClassName",
                 postgresContainer::getDriverClassName);
     }
 }

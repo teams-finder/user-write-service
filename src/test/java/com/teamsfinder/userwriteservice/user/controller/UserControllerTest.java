@@ -19,11 +19,6 @@ class UserControllerTest extends IntegrationBaseClass {
 
     private static final String EDIT_STRING = "EDITED";
     private static final String EDIT_END_POINT = "/users";
-    private static final String ID_JSON_PATH = "$.id";
-    private static final String GITHUB_JSON_PATH = "$.githubProfileUrl";
-    private static final String PICTURE_JSON_PATH = "$.profilePictureUrl";
-    private static final String TAGS_JSON_PATH = "$.tags";
-    private static final String BLOCK_END_POINT = "/users/1/block";
 
     @Autowired
     private UserCreator userCreator;
@@ -43,10 +38,10 @@ class UserControllerTest extends IntegrationBaseClass {
 
         //then
         performRequest.andExpect(status().isOk())
-                .andExpect(jsonPath(ID_JSON_PATH).value(user.getId()))
-                .andExpect(jsonPath(GITHUB_JSON_PATH).value(EDIT_STRING))
-                .andExpect(jsonPath(PICTURE_JSON_PATH).value(EDIT_STRING))
-                .andExpect(jsonPath(TAGS_JSON_PATH).exists());
+                .andExpect(jsonPath("$.id").value(user.getId()))
+                .andExpect(jsonPath("$.githubProfileUrl").value(EDIT_STRING))
+                .andExpect(jsonPath("$.profilePictureUrl").value(EDIT_STRING))
+                .andExpect(jsonPath("$.tags").exists());
     }
 
     @Test
@@ -70,7 +65,7 @@ class UserControllerTest extends IntegrationBaseClass {
         //given
 
         //when
-        ResultActions performRequest = mockMvc.perform(patch(BLOCK_END_POINT));
+        ResultActions performRequest = mockMvc.perform(patch("/users/1/block"));
 
         //then
         performRequest.andExpect(status().isBadRequest());

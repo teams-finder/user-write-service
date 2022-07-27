@@ -57,16 +57,4 @@ public class KeycloakService {
                 .password(KEYCLOAK_PASSWORD)
                 .build();
     }
-
-    @Override
-    public String toString() {
-        return "KeycloakService{" +
-                "KEYCLOAK_AUTH_URL='" + KEYCLOAK_AUTH_URL + '\'' +
-                ", KEYCLOAK_REALM='" + KEYCLOAK_REALM + '\'' +
-                ", KEYCLOAK_MASTER_REALM='" + KEYCLOAK_MASTER_REALM + '\'' +
-                ", KEYCLOAK_CLIENT_ID='" + KEYCLOAK_CLIENT_ID + '\'' +
-                ", KEYCLOAK_USERNAME='" + KEYCLOAK_USERNAME + '\'' +
-                ", KEYCLOAK_PASSWORD='" + KEYCLOAK_PASSWORD + '\'' +
-                '}';
-    }
 }

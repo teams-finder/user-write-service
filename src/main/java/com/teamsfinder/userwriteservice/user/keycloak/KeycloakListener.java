@@ -13,10 +13,6 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 class KeycloakListener {
 
-    private static final String USER_ID_PATH = "userId";
-    private static final String QUOTE = "\"";
-    private static final String EMPTY_STRING = "";
-
     private final UserService userService;
 
     @RabbitListener(queues = "keycloak.queue")
@@ -27,9 +23,9 @@ class KeycloakListener {
 
     private String getKeyCloakId(String data) throws JsonProcessingException {
         ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
-        JsonNode keyCloakIdField = node.get(USER_ID_PATH);
+        JsonNode keyCloakIdField = node.get("userId");
         String keyCloakIdString = keyCloakIdField.toString();
-        String replacedQuoteKeyCloakId = keyCloakIdString.replaceAll(QUOTE, EMPTY_STRING);
+        String replacedQuoteKeyCloakId = keyCloakIdString.replaceAll("\"", "");
         return replacedQuoteKeyCloakId;
     }
 }
