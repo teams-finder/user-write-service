@@ -14,17 +14,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class KeycloakService {
 
-    @Value("keycloak.auth-url")
+    @Value("${keycloak.auth-url}")
     private String KEYCLOAK_AUTH_URL;
-    @Value("keycloak.realm")
+    @Value("${keycloak.realm}")
     private String KEYCLOAK_REALM;
-    @Value("keycloak.master-realm")
+    @Value("${keycloak.master-realm}")
     private String KEYCLOAK_MASTER_REALM;
-    @Value("keycloak.client-id")
+    @Value("${keycloak.client-id}")
     private String KEYCLOAK_CLIENT_ID;
-    @Value("keycloak.username")
+    @Value("${keycloak.username}")
     private String KEYCLOAK_USERNAME;
-    @Value("keycloak.password")
+    @Value("${keycloak.password}")
     private String KEYCLOAK_PASSWORD;
 
     public void blockInKeyCloak(User user) {
