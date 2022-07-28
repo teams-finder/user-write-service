@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
 @EnableEurekaClient
-@PropertySource(value = "classpath:keycloak.yml", factory = YamlFactory.class)
+@PropertySource(value = "classpath:keycloak.yml", factory = YamlPropertySourceFactory.class)
 public class UserWriteServiceApplication {
 
     public static void main(String[] args) {
