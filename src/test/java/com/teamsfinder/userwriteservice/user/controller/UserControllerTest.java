@@ -33,11 +33,11 @@ class UserControllerTest extends IntegrationBaseClass {
                 objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
 
         //when
-        ResultActions performRequest =
+        ResultActions resultActions =
                 mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
 
         //then
-        performRequest.andExpect(status().isOk())
+        resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(user.getId()))
                 .andExpect(jsonPath("$.githubProfileUrl").value(EDIT_STRING))
                 .andExpect(jsonPath("$.profilePictureUrl").value(EDIT_STRING))
@@ -53,11 +53,11 @@ class UserControllerTest extends IntegrationBaseClass {
                 objectMapper.writer().withDefaultPrettyPrinter().writeValueAsString(editUserDto);
 
         //when
-        ResultActions performRequest =
+        ResultActions resultActions =
                 mockMvc.perform(patch(EDIT_END_POINT).contentType(MediaType.APPLICATION_JSON).content(json));
 
         //then
-        performRequest.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isBadRequest());
     }
 
     @Test
@@ -65,9 +65,9 @@ class UserControllerTest extends IntegrationBaseClass {
         //given
 
         //when
-        ResultActions performRequest = mockMvc.perform(patch("/users/1/block"));
+        ResultActions resultActions = mockMvc.perform(patch("/users/1/block"));
 
         //then
-        performRequest.andExpect(status().isBadRequest());
+        resultActions.andExpect(status().isBadRequest());
     }
 }
