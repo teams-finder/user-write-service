@@ -77,7 +77,7 @@ class UserServiceTest extends UnitBaseClass {
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
-        assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
+        assertThat(userDto.accountType()).isEqualTo(AccountType.USER);
         assertThat(userDto.githubProfileUrl()).isEqualTo(EDIT_STRING);
         assertThat(userDto.profilePictureUrl()).isEqualTo(EDIT_STRING);
         assertThat(userDto.blocked()).isEqualTo(false);
@@ -111,7 +111,7 @@ class UserServiceTest extends UnitBaseClass {
         //then
         assertThat(userDto.id()).isEqualTo(1L);
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
-        assertThat(userDto.accountType()).isEqualTo(AccountType.USER.toString());
+        assertThat(userDto.accountType()).isEqualTo(AccountType.USER);
         assertThat(userDto.githubProfileUrl()).isEqualTo(USER_GITHUB);
         assertThat(userDto.profilePictureUrl()).isEqualTo(USER_PICTURE);
         assertThat(userDto.blocked()).isEqualTo(true);

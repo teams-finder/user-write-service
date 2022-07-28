@@ -1,13 +1,11 @@
 package com.teamsfinder.userwriteservice.user.service;
 
 import com.teamsfinder.userwriteservice.tag.dto.TagEditDto;
-import com.teamsfinder.userwriteservice.tag.dto.TagResponseDto;
 import com.teamsfinder.userwriteservice.tag.model.Tag;
 import com.teamsfinder.userwriteservice.user.dto.EditUserRequestDto;
 import com.teamsfinder.userwriteservice.user.dto.UserResponseDto;
 import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import com.teamsfinder.userwriteservice.user.keycloak.KeycloakService;
-import com.teamsfinder.userwriteservice.user.model.AccountType;
 import com.teamsfinder.userwriteservice.user.model.User;
 import com.teamsfinder.userwriteservice.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +52,7 @@ public class UserService {
     }
 
     private User updateUserAndReturn(Long id, EditUserRequestDto editUserDto) {
-        User user = getUserFromRepository(id);
+        User user = getUserById(id);
         user.setGithubProfileUrl(editUserDto.githubProfileUrl());
         user.setProfilePictureUrl(editUserDto.profilePictureUrl());
         user.setTags(mapTagsFromDto(editUserDto.tags()));
@@ -75,14 +73,14 @@ public class UserService {
     }
 
     public UserResponseDto blockUser(Long id) {
-        User user = getUserFromRepository(id);
+        User user = getUserById(id);
         user.setBlocked(true);
         keyCloakService.blockInKeyCloak(user);
         User savedUser = saveToRepository(user);
         return mapUserToResponseDto(savedUser);
     }
 
-    private User getUserFromRepository(Long id) {
+    private User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
