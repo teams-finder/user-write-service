@@ -20,6 +20,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 
 class UserServiceTest extends UnitBaseClass {
@@ -50,7 +53,7 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldCreateUser() {
         //given
-        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
+        doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
 
         //when
         UserResponseDto userDto = underTest.createUser(USER_KEYCLOAK_ID);
@@ -62,9 +65,9 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldEditUser() {
         //given
-        Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
-        Mockito.when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
-        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
+        when(userRepository.existsById(Mockito.anyLong())).thenReturn(true);
+        when(userRepository.findById(Mockito.anyLong())).thenReturn(Optional.of(testUser));
+        doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
 
         //when
         UserResponseDto userDto =
@@ -84,7 +87,7 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldThrowUserNotFoundExceptionWhileEditingUser() {
         //given
-        Mockito.when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
+        when(userRepository.existsById(Mockito.anyLong())).thenReturn(false);
 
         //when
         Executable executableEditUser =
@@ -98,9 +101,9 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldBlockUser() {
         //given
-        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
-        Mockito.doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
-        Mockito.doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
+        doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
 
         //when
         UserResponseDto userDto = underTest.blockUser(1L);
@@ -118,7 +121,7 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldThrowKeyCloakExceptionWhileBlockingUser() {
         //given
-        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         Mockito.doThrow(new KeycloakException("Test throw error")).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
 
         //when
@@ -131,7 +134,7 @@ class UserServiceTest extends UnitBaseClass {
     @Test
     void shouldThrowUserNotFoundExceptionWhileBlockingUser() {
         //given
-        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
+        when(userRepository.findById(1L)).thenReturn(Optional.ofNullable(null));
 
         //when
         Executable executableBlockUser = () -> underTest.blockUser(1L);
