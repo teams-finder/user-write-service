@@ -31,14 +31,7 @@ public record UserResponseDto(
 
     private static List<TagResponseDto> mapTagsToDto(List<Tag> tags) {
         return tags.stream()
-                .map(tag -> mapTagToDto(tag))
+                .map(tag -> new TagResponseDto(tag))
                 .toList();
-    }
-
-    private static TagResponseDto mapTagToDto(Tag tag) {
-        return new TagResponseDto(
-                tag.getId(),
-                tag.getName()
-        );
     }
 }
