@@ -11,6 +11,7 @@ public record UserResponseDto(
         String githubProfileUrl,
         String profilePictureUrl,
         boolean blocked,
-        List<TagResponseDto> tags) {
+        List<TagResponseDto> tags
+) {
 
 }

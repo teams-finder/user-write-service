@@ -10,6 +10,7 @@ public record EditUserRequestDto(
         @NotNull Long id,
         @NotEmpty String githubProfileUrl,
         @NotEmpty String profilePictureUrl,
-        @NotNull List<TagEditDto> tags) {
+        @NotNull List<TagEditDto> tags
+) {
 
 }
