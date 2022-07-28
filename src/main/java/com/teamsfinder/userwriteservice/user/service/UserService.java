@@ -50,11 +50,10 @@ public class UserService {
     }
 
     private UserResponseDto mapUserToResponseDto(User user) {
-        AccountType accountType = user.getAccountType();
         return new UserResponseDto(
                 user.getId(),
                 user.getKeyCloakId(),
-                accountType.toString(),
+                user.getAccountType(),
                 user.getGithubProfileUrl(),
                 user.getProfilePictureUrl(),
                 user.isBlocked(),
