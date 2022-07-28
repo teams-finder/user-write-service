@@ -1,4 +1,4 @@
-package com.teamsfinder.userwriteservice.user.exception;
+package com.teamsfinder.userwriteservice.exception;
 
 import java.time.LocalDateTime;
 

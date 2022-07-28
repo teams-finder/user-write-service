@@ -1,5 +1,7 @@
-package com.teamsfinder.userwriteservice.user.exception;
+package com.teamsfinder.userwriteservice.exception;
 
+import com.teamsfinder.userwriteservice.user.exception.KeycloakException;
+import com.teamsfinder.userwriteservice.user.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
