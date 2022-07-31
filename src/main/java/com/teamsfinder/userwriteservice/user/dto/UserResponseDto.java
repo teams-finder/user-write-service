@@ -9,6 +9,7 @@ import java.util.List;
 
 public record UserResponseDto(
         Long id,
+        String username,
         String keyCloakId,
         AccountType accountType,
         String githubProfileUrl,
@@ -17,9 +18,10 @@ public record UserResponseDto(
         List<TagResponseDto> tags
 ) {
 
-    public UserResponseDto(User user){
+    public UserResponseDto(User user) {
         this(
                 user.getId(),
+                user.getUsername(),
                 user.getKeyCloakId(),
                 user.getAccountType(),
                 user.getGithubProfileUrl(),

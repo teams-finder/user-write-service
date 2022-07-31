@@ -31,6 +31,7 @@ class UserServiceTest extends UnitBaseClass {
     private static final String EDIT_STRING = "EDITED";
     private static final String USER_GITHUB = "GITHUB";
     private static final String USER_PICTURE = "PICTURE";
+    private static final String USERNAME = "USERNAME";
 
     @Mock
     private UserRepository userRepository;
@@ -56,10 +57,12 @@ class UserServiceTest extends UnitBaseClass {
         doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
 
         //when
-        UserResponseDto userDto = underTest.createUser(USER_KEYCLOAK_ID);
+        UserResponseDto userDto = underTest.createUser(USER_KEYCLOAK_ID,
+                USERNAME);
 
         //then
         assertThat(userDto.keyCloakId()).isEqualTo(USER_KEYCLOAK_ID);
+        assertThat(userDto.username()).isEqualTo(USERNAME);
     }
 
     @Test

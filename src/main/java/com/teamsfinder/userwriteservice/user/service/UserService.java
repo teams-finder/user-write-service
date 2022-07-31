@@ -21,8 +21,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final KeycloakService keyCloakService;
 
-    public UserResponseDto createUser(String keyCloakId) {
-        User user = buildUser(keyCloakId);
+    public UserResponseDto createUser(String keyCloakId, String username) {
+        User user = buildUser(keyCloakId, username);
         User savedUser = saveToRepository(user);
         return mapUserToResponseDto(savedUser);
     }
@@ -31,8 +31,9 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    private User buildUser(String keyCloakId) {
+    private User buildUser(String keyCloakId, String username) {
         return User.builder()
+                .username(username)
                 .keyCloakId(keyCloakId)
                 .build();
     }

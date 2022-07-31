@@ -19,6 +19,7 @@ public class UserCreator {
         UUID uuid = UUID.randomUUID();
         return userRepository.save(User.builder()
                 .id(null)
+                .username(uuid.toString())
                 .keyCloakId(uuid.toString())
                 .accountType(AccountType.USER)
                 .githubProfileUrl("USER_GITHUB")
@@ -29,8 +30,10 @@ public class UserCreator {
     }
 
     public User createWithKeycloakId(String keycloakId) {
+        UUID uuid = UUID.randomUUID();
         return userRepository.save(User.builder()
                 .id(null)
+                .username(uuid.toString())
                 .keyCloakId(keycloakId)
                 .accountType(AccountType.USER)
                 .githubProfileUrl("USER_GITHUB")

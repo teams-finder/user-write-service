@@ -17,15 +17,20 @@ class KeycloakListener {
 
     @RabbitListener(queues = "keycloak.queue")
     public void handleUserCreateAccount(String data) throws JsonProcessingException {
-        String replacedQuoteKeyCloakId = getKeyCloakId(data);
-        userService.createUser(replacedQuoteKeyCloakId);
+        String keyCloakId = getKeyCloakId(data);
+        String username = getUsername(data);
+        userService.createUser(keyCloakId, username);
+    }
+
+    private String getUsername(String data) throws JsonProcessingException {
+        ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
+        JsonNode usernameField = node.at("/details/username");
+        return usernameField.asText();
     }
 
     private String getKeyCloakId(String data) throws JsonProcessingException {
         ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
         JsonNode keyCloakIdField = node.get("userId");
-        String keyCloakIdString = keyCloakIdField.toString();
-        String replacedQuoteKeyCloakId = keyCloakIdString.replaceAll("\"", "");
-        return replacedQuoteKeyCloakId;
+        return keyCloakIdField.asText();
     }
 }

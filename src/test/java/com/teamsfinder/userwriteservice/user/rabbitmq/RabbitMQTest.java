@@ -16,6 +16,7 @@ class RabbitMQTest extends RabbitMQIntegrationBaseClass {
 
     private static final String KEYCLOAK_ID = "d1ba60c5-97c1-4b54-b636" +
             "-90541baef365";
+    private static final String USERNAME = "test2";
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -24,7 +25,7 @@ class RabbitMQTest extends RabbitMQIntegrationBaseClass {
     private UserRepository userRepository;
 
     @Test
-    void shouldCreateUser() throws InterruptedException {
+    void shouldCreateUser() {
         //given
         rabbitTemplate.convertAndSend("keycloak.queue", "{\n" +
                 "  \"@class\" : \"com.github.aznamier.keycloak.event.provider" +
@@ -46,13 +47,13 @@ class RabbitMQTest extends RabbitMQIntegrationBaseClass {
                 "    \"code_id\" : \"64972a21-fc28-4b26-8b33-766908216b6e\"," +
                 "\n" +
                 "    \"email\" : \"test2@test.pl\",\n" +
-                "    \"username\" : \"test2\"\n" +
+                "    \"username\" : \"" + USERNAME + "\"\n" +
                 "  }\n" +
                 "}");
         //when
         List<User> users = userRepository.findAll();
 
         //then
-        assertThat(users.stream().filter(user -> Objects.equals(user.getKeyCloakId(), KEYCLOAK_ID))).isNotEmpty();
+        assertThat(users.stream().filter(user -> (Objects.equals(user.getKeyCloakId(), KEYCLOAK_ID) && Objects.equals(user.getUsername(), USERNAME)))).isNotEmpty();
     }
 }

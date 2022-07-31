@@ -36,6 +36,9 @@ public class User {
     private Long id;
 
     @NotEmpty
+    private String username;
+
+    @NotEmpty
     private String keyCloakId;
 
     @NotNull
