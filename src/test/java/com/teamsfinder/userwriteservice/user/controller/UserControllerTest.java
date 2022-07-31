@@ -63,9 +63,12 @@ class UserControllerTest extends IntegrationBaseClass {
     @Test
     void shouldThrowBadGatewayWhileBlockingUser() throws Exception {
         //given
+        User user = userCreator.create();
 
         //when
-        ResultActions resultActions = mockMvc.perform(patch("/users/1/block"));
+        ResultActions resultActions =
+                mockMvc.perform(patch("/users/" + user.getId() +
+                "/block"));
 
         //then
         resultActions.andExpect(status().isBadRequest());
