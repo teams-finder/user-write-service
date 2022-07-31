@@ -17,6 +17,7 @@
     <properties>
         <java.version>17</java.version>
         <spring-cloud.version>2021.0.3</spring-cloud.version>
+        <test.containers.version>1.17.3</test.containers.version>
     </properties>
     <dependencies>
         <dependency>
@@ -63,6 +64,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>rabbitmq</artifactId>
+            <version>${test.containers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>com.github.dasniko</groupId>
             <artifactId>testcontainers-keycloak</artifactId>
             <version>1.9.0</version>
@@ -71,7 +78,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.17.3</version>
+            <version>${test.containers.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -92,7 +99,7 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
-            <version>1.17.3</version>
+            <version>${test.containers.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
