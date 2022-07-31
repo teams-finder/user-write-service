@@ -12,10 +12,8 @@ public class KeycloakIntegrationBaseClass extends IntegrationBaseClass {
         keycloakContainer = new KeycloakContainer(
                 "quay" +
                         ".io/keycloak/keycloak:16.0.0").withRealmImportFile(
-                        "/realm" +
-                                "-export.json")
-                .withAdminUsername("admin")
-                .withAdminPassword("admin");
+                "/realm" +
+                        "-export.json");
         keycloakContainer.start();
     }
 
@@ -23,5 +21,7 @@ public class KeycloakIntegrationBaseClass extends IntegrationBaseClass {
     public static void setDatasourceProperties(DynamicPropertyRegistry registry) {
         IntegrationBaseClass.setDatasourceProperties(registry);
         registry.add("keycloak.authUrl", keycloakContainer::getAuthServerUrl);
+        registry.add("keycloak.username", keycloakContainer::getAdminUsername);
+        registry.add("keycloak.password", keycloakContainer::getAdminPassword);
     }
 }

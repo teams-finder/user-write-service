@@ -27,6 +27,9 @@ class KeycloakServiceTest extends KeycloakIntegrationBaseClass {
     @Autowired
     private UserCreator userCreator;
 
+    @Autowired
+    private KeycloakProperties keycloakProperties;
+
     @Test
     void shouldThrowWhileBlockingInKeycloak() {
         //given
@@ -53,7 +56,8 @@ class KeycloakServiceTest extends KeycloakIntegrationBaseClass {
 
     private User createUserInKeycloak() {
         Keycloak keycloak = underTest.buildKeyCloak();
-        RealmResource realmResource = keycloak.realm("TeamsFinder");
+        RealmResource realmResource =
+                keycloak.realm(keycloakProperties.getRealm());
         UsersResource usersResource = realmResource.users();
         Response response = usersResource.create(createUserRepresentation());
         String userId = CreatedResponseUtil.getCreatedId(response);
