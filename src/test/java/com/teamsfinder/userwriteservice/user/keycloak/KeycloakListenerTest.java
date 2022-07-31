@@ -1,4 +1,4 @@
-package com.teamsfinder.userwriteservice.user.rabbitmq;
+package com.teamsfinder.userwriteservice.user.keycloak;
 
 import com.teamsfinder.userwriteservice.user.RabbitMQIntegrationBaseClass;
 import com.teamsfinder.userwriteservice.user.model.User;
@@ -12,7 +12,7 @@ import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class RabbitMQTest extends RabbitMQIntegrationBaseClass {
+class KeycloakListenerTest extends RabbitMQIntegrationBaseClass {
 
     private static final String KEYCLOAK_ID = "d1ba60c5-97c1-4b54-b636" +
             "-90541baef365";
