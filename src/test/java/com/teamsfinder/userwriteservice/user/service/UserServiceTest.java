@@ -103,7 +103,7 @@ class UserServiceTest extends UnitBaseClass {
         //given
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         doAnswer(invocationOnMock -> invocationOnMock.getArgument(0)).when(userRepository).save(Mockito.any(User.class));
-        doNothing().when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        doNothing().when(keyCloakService).blockInKeycloak(Mockito.any(User.class));
 
         //when
         UserResponseDto userDto = underTest.blockUser(1L);
@@ -122,7 +122,7 @@ class UserServiceTest extends UnitBaseClass {
     void shouldThrowKeyCloakExceptionWhileBlockingUser() {
         //given
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
-        Mockito.doThrow(new KeycloakException("Test throw error")).when(keyCloakService).blockInKeyCloak(Mockito.any(User.class));
+        Mockito.doThrow(new KeycloakException("Test throw error")).when(keyCloakService).blockInKeycloak(Mockito.any(User.class));
 
         //when
         Executable executableBlockUser = () -> underTest.blockUser(1L);

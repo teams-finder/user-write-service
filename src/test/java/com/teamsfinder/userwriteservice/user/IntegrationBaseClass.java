@@ -30,7 +30,7 @@ public abstract class IntegrationBaseClass {
     protected ObjectMapper objectMapper;
 
     @DynamicPropertySource
-    public static void setDatasourceProperties(final DynamicPropertyRegistry registry) {
+    public static void setDatasourceProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", postgresContainer::getJdbcUrl);
         registry.add("spring.datasource.password",
                 postgresContainer::getPassword);

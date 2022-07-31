@@ -75,7 +75,7 @@ public class UserService {
     public UserResponseDto blockUser(Long id) {
         User user = getUserById(id);
         user.setBlocked(true);
-        keyCloakService.blockInKeyCloak(user);
+        keyCloakService.blockInKeycloak(user);
         User savedUser = saveToRepository(user);
         return mapUserToResponseDto(savedUser);
     }
