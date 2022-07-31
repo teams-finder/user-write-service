@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 class KeycloakListener {
 
     private final UserService userService;
+    private final ObjectMapper objectMapper;
 
     @RabbitListener(queues = "keycloak.queue")
     public void handleUserCreateAccount(String data) throws JsonProcessingException {
@@ -23,13 +24,13 @@ class KeycloakListener {
     }
 
     private String getUsername(String data) throws JsonProcessingException {
-        ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
+        ObjectNode node = objectMapper.readValue(data, ObjectNode.class);
         JsonNode usernameField = node.at("/details/username");
         return usernameField.asText();
     }
 
     private String getKeyCloakId(String data) throws JsonProcessingException {
-        ObjectNode node = new ObjectMapper().readValue(data, ObjectNode.class);
+        ObjectNode node = objectMapper.readValue(data, ObjectNode.class);
         JsonNode keyCloakIdField = node.get("userId");
         return keyCloakIdField.asText();
     }
