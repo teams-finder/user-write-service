@@ -8,13 +8,21 @@ import com.teamsfinder.userwriteservice.user.model.User;
 import java.util.List;
 
 public record UserResponseDto(
+
         Long id,
+
         String username,
+
         String keyCloakId,
+
         AccountType accountType,
+
         String githubProfileUrl,
+
         String profilePictureUrl,
+
         boolean blocked,
+
         List<TagResponseDto> tags
 ) {
 
