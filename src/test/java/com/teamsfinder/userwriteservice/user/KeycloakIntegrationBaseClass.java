@@ -10,10 +10,8 @@ public class KeycloakIntegrationBaseClass extends IntegrationBaseClass {
 
     static {
         keycloakContainer = new KeycloakContainer(
-                "quay" +
-                        ".io/keycloak/keycloak:16.0.0").withRealmImportFile(
-                "/realm" +
-                        "-export.json");
+                "quay.io/keycloak/keycloak:16.0.0")
+                .withRealmImportFile("/realm-export.json");
         keycloakContainer.start();
     }
 

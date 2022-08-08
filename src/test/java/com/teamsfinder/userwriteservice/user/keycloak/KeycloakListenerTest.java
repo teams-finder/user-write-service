@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +24,9 @@ class KeycloakListenerTest extends RabbitMQIntegrationBaseClass {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Test
     void shouldCreateUser() {
