@@ -1,6 +1,7 @@
 package com.teamsfinder.userwriteservice.user.model;
 
-enum AccountType {
+public enum AccountType {
+
     USER,
     MENTOR,
     JURY,

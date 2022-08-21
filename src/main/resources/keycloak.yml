@@ -1,0 +1,7 @@
+keycloak:
+  authUrl: http://localhost:8080/auth
+  realm: TeamsFinder
+  masterRealm: master
+  clientId: admin-cli
+  username: admin
+  password: admin
